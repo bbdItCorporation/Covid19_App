@@ -1,0 +1,118 @@
+@startuml Covid19App
+
+skinparam BackgroundColor #2C2C3B
+skinparam ClassBackgroundColor #3D3D3D
+skinparam ClassFontColor #398EE9
+skinparam ClassAttributeFontColor #FCAF3E
+skinparam ArrowColor #569CD6
+skinparam ClassBorderColor #569CD6
+skinparam ClassBorderThickness 2
+skinparam ArrowFontColor #398EE9
+
+class User << Entity>> {
+	- long id;
+    - String name;
+    - String surname;
+    - String role;
+    - String login;
+    - String passwordHash;
+    - String mail;
+
+    + getId() : long
+    + getName() : String
+    + setName(String name)
+    + getSurname() : String
+    + setSurname(String surname)
+    + getRole() : String
+    + setRole(String role)
+    + getLogin() : String
+    + setLogin(String login)
+    + getPasswordHash() : String
+    + setPasswordHash(String passwordHash)
+    + getMail() : String
+    + setMail(String mail)
+}
+
+class Hasher {
+    - hash params!
+
+    + hash(String string) : String
+}
+
+class LoginController <<Controller>> {
+
+}
+
+class PatientController <<Controller>> {
+
+}
+
+class AdminController <<Controller>> {
+
+}
+
+class Patient << Entity>> {
+	- baza info
+
+	+ set i get
+
+}
+
+interface JpaRepository {
+}
+
+interface PatientRepository <<Repository>> {
+
+}
+
+interface UserRepository <<Repository>> {
+}
+
+
+class ExcelDocGenerator {
+    + generateExcelDoc()
+    - getTableData()
+}
+
+class WordDocGenerator {
+    + generateWordDoc()
+    - getTableData()
+}
+
+interface DbExtractor {
+
+}
+
+class DbExtractorImpl {
+}
+
+class Validator {
+    + Validator(String whitelist);
+    + validate(String str)
+    'regex
+    '[0-9@a-zA-Z\._-]
+    '[^a-z^A-Z]+
+    'https://regexr.com/
+}
+
+
+JpaRepository <|-- PatientRepository : extends
+JpaRepository <|-- UserRepository : extends
+AdminController *-- DbExtractor : uses
+LoginController *-- DbExtractor : uses
+PatientController *-- DbExtractor : uses
+DbExtractor <|-- DbExtractorImpl : implements
+ExcelDocGenerator *-- DbExtractor : uses
+WordDocGenerator *-- DbExtractor : uses
+PatientController *-- WordDocGenerator : uses
+PatientController *-- ExcelDocGenerator : uses
+DbExtractorImpl *-- PatientRepository : uses
+DbExtractorImpl *-- UserRepository : uses
+
+PatientRepository *-- Patient : uses
+UserRepository *-- User : uses
+AdminController *-- Hasher : uses
+LoginController *-- Hasher : uses
+@enduml
+
+

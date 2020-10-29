@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="pl">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Aplikacja Sanepid</title>
+   <meta charset="utf-8">
+  
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+   <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> -->
+   
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+   <!-- IKONY FONTAWSOME -->
+   <script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+
+   <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"> -->
+   
+	<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script> -->
+   
+   
+   <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    -->
+
+    <!-- IKONY FONTAWSOME -->
+    <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous"> -->
+
+   <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Nawigacja -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+	<div class="container-fluid">
+		<a class="navbar-brand" href="index.html">
+         <!-- <img src="" alt="Logo"> potem się doda logo jakies-->
+         Aplikacja PSSE Gliwice
+         <i class="fas fa-home"></i>
+      </a>
+
+		<button class="navbar-toggler" type="toggle" data-toggle="collapse" data-target="#navbarResponsive">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse" id="navbarResponsive">
+			<ul class="navbar-nav ml-auto">
+
+				<li class="nav-item">
+               <a class="nav-link" th:href="@{/}">  Strona&nbsp;Domowa  <i class="fas fa-home"></i>  </a>
+            </li>
+				<li class="nav-item">
+               <a class="nav-link" th:href="@{/patient/new}">Wprowadzenie&nbsp;Zgłoszenia <i class="far fa-sticky-note"></i></a>
+            </li>
+				<li class="nav-item">
+               <a class="nav-link" href="#">Raporty&nbsp;Word <i class="far fa-file-word"></i></a>
+            </li>
+				<li class="nav-item">
+               <a class="nav-link" href="#">Raporty&nbsp;Excel  <i class="far fa-file-excel"></i></a>
+            </li>
+				<li class="nav-item">
+               <a id="logout" class="nav-link" href="#">  Wyloguj&nbsp;się   <i class="fas fa-sign-out-alt"></i>  </a>
+            </li>
+
+			</ul>
+		</div>
+
+	</div>
+</nav>
+
+
+<div class="container-fluid padding">
+   <div class="row welcome text-center">
+      <div class="col-12">
+         <h1 class="display-1"> Formularz zgłoszenia Covid-19 </h1> 
+      </div>         
+   </div>
+</div>
+
+
+<div class="container-fluid padding">
+	<hr> <!-- Do usunięcia!  -->
+	
+</div>
+
+
+
+<div class="container-fluid padding">
+
+   <!-- POWITANIE -->
+   <div class="row welcome text-center">
+
+		<div class="col-12">
+			<h1 class="display-4"> Wypełnij Poniższy Formularz</h1>
+		</div>
+   </div>
+
+   
+   <div class="row welcome justify-content-center">
+      <div class="col-sm-12 col-md-10">
+         <p class="lead">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos enim cupiditate officiis a iure, nihil magnam, aut odit ullam fuga nostrum sit blanditiis exercitationem neque ducimus modi animi dignissimos accusamus.
+         </p>
+      </div>
+   </div>
+   
+   
+
+   <!-- FORMULARZ -->
+   <form action="/patient/save"  th:object="${newPatient}" method="POST" id="form_primary">
+      <div class="row justify-content-center">
+         
+         <div class="col-xs-12 col-md-2 col-lg-1">
+            <!-- IMIE -->
+            <div class="form-group">
+               <label for="">Imię</label>
+               <input type="text" class="form-control" placeholder="Imię" th:field="${newPatient.name}">
+            </div>
+         </div>       
+         
+         <!-- NAZWISKO -->
+         <div class="col-xs-12 col-md-2 col-lg-1">
+            <div class="form-group">
+               <label for="">Nazwisko</label>
+               <input type="text" class="form-control" placeholder="Nazwisko"  th:field="${newPatient.surname}">
+            </div>
+         </div>
+         
+         <!-- PLEC -->
+         <div class="col-xs-12 col-md-2 col-lg-1">
+            <div class="form-group">
+               <label for="">Płeć</label>
+               <select th:field="${newPatient.gender}" id="" class="form-control">
+                  <option th:value="woman">Kobieta</option>
+                  <option th:value="men">Mężczyzna</option>
+               </select>
+            </div>
+         </div>
+
+         <!-- DATA URODZENIA -->
+         <div class="col-xs-12 col-md-1.5">                   
+            <div class="form-group">
+               <label for="">Data Urodzenia</label>
+               <input type="date" class="form-control" placeholder="Data" th:field="${newPatient.birthDate}" name="date" value="2000-10-23" >
+            </div>
+         </div>
+
+         <!-- PRZESLANIE FORMULARZA -->
+         <div class="col-xs-12 col-md-2 col-lg-1">
+            <div class="form-group" style="padding-top: 1.99rem;">
+               <input type="submit"  class="btn btn-primary">
+            </div>
+         </div>
+
+      </div>        
+   </form>
+
+ 
+   
+</div>
+
+</body>
+</html>
