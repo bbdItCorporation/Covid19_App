@@ -1,0 +1,95 @@
+
+
+/* @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,700'); */
+
+
+
+/*---Media Queries --*/
+@media (min-width: 768px) {    
+
+   html {
+      height: 100%;
+      background-image: linear-gradient(120deg, #042230 0%, #3d588a 100%);
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+   }
+   
+   body {
+      /* margin: 3rem auto auto auto; */
+      /* display: flex;
+      justify-content: center;
+      align-items: center; */
+   
+      height: 100%;   
+      background-color: transparent;
+      /* background-color: hotpink; */
+      /* background-color: rgba(255, 255, 255, 0); */
+   }
+
+   #login-form-container {
+      height: 100% !important;
+      /* margin: 3rem auto auto auto; */
+      /* display: flex; */
+      /* justify-content: center; */
+      /* align-items: center; */
+      
+      /* background-color: rgb(224, 232, 255); */
+      background-color: white;
+
+   } 
+   
+   #login-form {
+      background-image: linear-gradient(120deg, rgba(255, 255, 255, 0.9), rgba(208, 206, 223, 0.9));
+      box-shadow: rgba(0, 0, 0, 0.6) 0.1rem 0.1rem 1rem;        
+      padding: 5rem; 
+   }
+
+   #welcome-login {
+      /* font-size: 3em; */
+      /* padding-top: 20rem; */
+      padding: 5rem;
+      /* color: white; */
+      /* background-color: tomato; */
+   } 
+}
+
+
+@media (max-width: 768px) {    
+   body {   
+      background-image: linear-gradient(120deg, rgba(255, 255, 255, 0.9), rgba(208, 206, 223, 0.9));
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+   }   
+
+   /* #login-form {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+   } */
+
+   #welcome-login span {
+      display: none;
+   }
+
+   #welcome-login h1{
+      font-size: 3em;
+      /* color: tomato; */
+   }  
+}
+
+
+   
+#login-btn {
+   /* background-image: linear-gradient(120deg, #3d588a 0%, #042230 100%); */
+   background-color: #042230;
+   border-color: transparent;
+   /* box-shadow: black 0.1rem 0.1rem 0.2rem; */
+}
+
+#login-btn:hover {
+   box-shadow: rgba(0, 0, 0, 0.6) 0.2rem 0.2rem 0.2rem;
+}
+
+
+
+
