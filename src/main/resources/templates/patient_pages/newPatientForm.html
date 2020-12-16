@@ -32,7 +32,7 @@
     <!-- IKONY FONTAWSOME -->
     <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous"> -->
 
-   <link rel="stylesheet" href="style.css">
+   <link rel="stylesheet" type="text/css" th:href="@{/style.css}"}>
 </head>
 <body>
 
@@ -65,7 +65,7 @@
                <a class="nav-link" href="#">Raporty&nbsp;Excel  <i class="far fa-file-excel"></i></a>
             </li>
 				<li class="nav-item">
-               <a id="logout" class="nav-link" href="#">  Wyloguj&nbsp;się   <i class="fas fa-sign-out-alt"></i>  </a>
+               <a id="logout" class="nav-link" href="@{/logout}">  Wyloguj&nbsp;się   <i class="fas fa-sign-out-alt"></i>  </a>
             </li>
 
 			</ul>
@@ -113,7 +113,7 @@
    
 
    <!-- FORMULARZ -->
-   <form action="/patient/save"  th:object="${newPatient}" method="POST" id="form_primary">
+   <form th:action="@{/patient/save}"  th:object="${newPatient}" method="POST" id="form_primary">
       <div class="row justify-content-center">
          
          <div class="col-xs-12 col-md-2 col-lg-1">
@@ -121,6 +121,8 @@
             <div class="form-group">
                <label for="">Imię</label>
                <input type="text" class="form-control" placeholder="Imię" th:field="${newPatient.name}">
+                <span th:if="${#fields.hasErrors('name')}"
+                      th:errors="${newPatient.name}"></span>
             </div>
          </div>       
          
@@ -129,6 +131,8 @@
             <div class="form-group">
                <label for="">Nazwisko</label>
                <input type="text" class="form-control" placeholder="Nazwisko"  th:field="${newPatient.surname}">
+                <span th:if="${#fields.hasErrors('surname')}"
+                      th:errors="${newPatient.surname}"></span>
             </div>
          </div>
          

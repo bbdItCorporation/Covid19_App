@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-   <!-- INFO: Wszedzie gdzie wydawalo mi sie ze trzeba podpiac dodalem komentarz "TODO: Do podpiecia"  :P -->
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="pl">
 
+<head>
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Login</title>   
-  
+   <title>Login</title>
+
    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> -->
-   
+
    <!-- BOOTSTRAP -->
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -17,11 +17,11 @@
    <script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
 
    <!-- NASZE -->
-   <link rel="stylesheet" href="style.css">
-   <link rel="stylesheet" href="styles/login-styles.css">
-   
-   <!-- 
-      TODO: Pokazywanie/Ukrywanie hasła 
+   <link rel="stylesheet" type="text/css" th:href="@{/style.css}"}>
+   <link rel="stylesheet" type="text/css" th:href="@{/login-styles.css}">
+
+   <!--
+      TODO: Pokazywanie/Ukrywanie hasła
       uwidocznianie hasla
       metoda1: https://www.w3schools.com/howto/howto_js_toggle_password.asp
       metoda2: https://codepen.io/Sohail05/pen/yOpeBm
@@ -31,45 +31,44 @@
 </head>
 <body>
 
-<div class="container text-center" id="login-form-container">    
+<div class="container text-center" id="login-form-container">
 
    <div class="row welcome justify-content-center" id="welcome-login">
       <div class="col-12">
          <h1 class="display-3"><span>Aplikacja</span><br> PSSE Gliwice </h1>
-      </div>      
+      </div>
    </div>
 
    <div class="row justify-content-center"  >       <!-- style="margin-top: auto;" id="row3"  -->
       <div class="col-xs-12  col-md-8 col-lg-6" id="login-form">
          <h1 class="display-4">Zaloguj się</h1>
-         
 
-         <form action="TODO">  <!-- TODO: Do podpiecia -->
+
+         <form th:action="@{/login}" th:method="POST">
+
+            <div th:if="${param.error}">
+               <p class="text-danger"> Wprowadzono błędny login lub hasło.</p>
+            </div>
+
+            <div th:if="${param.logout}">
+               <p class="text-warning"> Zostałeś/aś wylogowany/a.</p>
+            </div>
 
             <div class="form-group">
-               <input type="login" class="form-control" name="login" id="" placeholder="Login" th:field="TODO">  <!-- TODO: Do podpiecia -->               
+               <input type="login" class="form-control" name="username" id="login" placeholder="Login" th:autofocus = "autofocus">
             </div>
             <div class="form-group">
                <!-- Na razie ustawilismy  type="text" zeby bylo widac wpisywane haslo -> type="password" -->
-               <input type="text" class="form-control" name="password" id="password" placeholder="Hasło" th:field="TODO">  <!-- TODO: Do podpiecia -->
-               <!-- <button  type="button" onclick="unhidePassword()"><span toggle="#password" class="fa fa-fw fa-eye field-icon toggle-password"></span></button> -->
-               
+               <input type="text" class="form-control" name="password" id="password" placeholder="Hasło">
+<!--                <button  type="button" onclick="unhidePassword()"><span toggle="#password" class="fa fa-fw fa-eye field-icon toggle-password"></span></button>-->
             </div>
 
-            <div class="form-group">
-               <select type="user-type"  class="form-control" name="" id="" th:field="TODO">  <!-- TODO: Do podpiecia -->
-                  <option value="user">Zwyczajny człowiek</option>
-                  <option value="admin">Admin</option>
-               </select>
+            <div class="form-group" style="text-align: center;">
+<!--               <input type="submit"  class="btn btn-primary" id="login-btn">-->
+                <button type="submit"  class="btn btn-primary" id="login-btn">Prześlij</button>
             </div>
-
-            <div class="form-group" style="text-align: right;">
-               <!-- TODO: Do podpiecia <- Tego nie jestem pewien-->
-               <input type="submit"  class="btn btn-primary" id="login-btn" th:field="TODO">  
-               <!-- <button type="submit"  class="btn btn-primary" id="login-btn">Prześlij</button> -->
-            </div>         
          </form>
-         
+
       </div>
    </div>
 </div>

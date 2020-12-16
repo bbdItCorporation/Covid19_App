@@ -27,7 +27,7 @@
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     -->
-   <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/style.css}"}>
 </head>
 <body>
 
@@ -60,11 +60,11 @@
                <a class="nav-link" href="#">Raporty&nbsp;Excel  <i class="far fa-file-excel"></i></a>
             </li>
 				<li class="nav-item">
-               <a id="logout" class="nav-link" href="#">  Wyloguj&nbsp;się   <i class="fas fa-sign-out-alt"></i>  </a>
-            </li>		
+               <a id="logout" class="nav-link" th:href="@{/logout}">  Wyloguj się   <i class="fas fa-sign-out-alt"></i>  </a>
+            </li>
 
 			</ul>
-		</div>		
+		</div>
 
 	</div>
 </nav>
