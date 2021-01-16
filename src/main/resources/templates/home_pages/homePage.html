@@ -48,19 +48,19 @@
 			<ul class="navbar-nav ml-auto">
 
 				<li class="nav-item">
-               <a class="nav-link"  th:href="@{/}">  Strona&nbsp;Domowa  <i class="fas fa-home"></i>  </a>
+               <a class="nav-link"  href="file:///C:\Users\Julia\Desktop\Strona\homePage.html">  Strona&nbsp;Domowa  <i class="fas fa-home"></i>  </a>
             </li>
 				<li class="nav-item">
-               <a class="nav-link" th:href="@{/patient/new}">Wprowadzenie&nbsp;Zgłoszenia <i class="far fa-sticky-note"></i></a>
+               <a class="nav-link" href="file:///C:\Users\Julia\Desktop\Strona\newPatientForm_2.html">Wprowadzenie&nbsp;Zgłoszenia <i class="far fa-sticky-note"></i></a>
             </li>
 				<li class="nav-item">
-               <a class="nav-link" href="#">Raporty&nbsp;Word <i class="far fa-file-word"></i></a>
+               <a class="nav-link" th:href="@{/word}">Raporty&nbsp;Word <i class="far fa-file-word"></i></a>
             </li>
 				<li class="nav-item">
-               <a class="nav-link" href="#">Raporty&nbsp;Excel  <i class="far fa-file-excel"></i></a>
+               <a class="nav-link"  href='file:///C:\Users\Julia\Desktop\Strona\Co_po_liceum.xls' download>Raport&nbsp;Excel  <i class="far fa-file-excel"></i></a>
             </li>
 				<li class="nav-item">
-               <a id="logout" class="nav-link" th:href="@{/logout}">  Wyloguj się   <i class="fas fa-sign-out-alt"></i>  </a>
+               <a id="logout" class="nav-link" href="file:///C:\Users\Julia\Desktop\Strona\loginForm.html">  Wyloguj się   <i class="fas fa-sign-out-alt"></i>  </a>
             </li>
 
 			</ul>
@@ -98,9 +98,9 @@
 
 <div class="container">
    <div class="row">
-      <div class="col-sm-12 col-md-4 ">Aby wprowadzić zgłoszenie przejdź do zakładki <a th:href="@{/patient/new}">Wprowadzanie Zgłoszeń</a></div>
+      <div class="col-sm-12 col-md-4 ">Aby wprowadzić zgłoszenie przejdź do zakładki <a href="#">Wprowadzanie Zgłoszeń</a></div>
       <div class="col-sm-12 col-md-4 ">Aby wygenerować decyzje przejdź do zakładki <a href="#">Raporty Word</a></div>
-      <div class="col-sm-12 col-md-4 ">Aby wygenerować raport excel przejdź do zakładki <a href="#">Raporty Excel</a> </div>
+      <div class="col-sm-12 col-md-4 ">Aby wygenerować raport excel kliknij <a href="file:///C:\Users\Julia\Documents\Co_po_liceum.xls" download>Raport Excel</a> </div>
    </div>
 </div>
 
