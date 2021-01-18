@@ -33,7 +33,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeRequests()
-                .antMatchers("/","/patient/**").hasAnyAuthority("admin","user")
+                .antMatchers("/","/patient/**","/export/excel").hasAnyAuthority("admin","user")
                 .antMatchers("/admin/**").hasAuthority("admin") // TODO: only admin can have access to /user/add, /user/save, /user/all, /user/edit
                 .and()
                 .formLogin()

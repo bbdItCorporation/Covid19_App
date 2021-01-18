@@ -44,7 +44,7 @@ public class UserController {
         return "redirect:/login?logout";
     }
 
-    @GetMapping("/users/export/excel")
+    @GetMapping("/export/excel")
     public void exportToExcel(HttpServletResponse response) throws IOException {
         response.setContentType("application/octet-stream");
 
