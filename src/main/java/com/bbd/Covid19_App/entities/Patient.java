@@ -3,10 +3,6 @@ package com.bbd.Covid19_App.entities;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.time.Period;
 
@@ -20,24 +16,24 @@ public class Patient {
     @Column(name = "patient_id")
     private Integer patientId;
 
-    @NotBlank(message = "Pole wymagane.")
-//    @Pattern(regexp = ".*([a-zA-Z]{4}$)")
-    @Pattern(regexp = "^[a-zA-Z]+$")
+//    @NotBlank(message = "Pole wymagane.")
+//    @Pattern(regexp = "^[a-zA-Z]+$", message = "Może zawierać tylko małe i duże litery.")
     @Length(max=50)
     @Column(name = "name")
     private String name;
 
-    @NotBlank(message = "Pole wymagane.")
-    @Pattern(regexp = "^[a-zA-Z-]+$")
+//    @NotBlank(message = "Pole wymagane.")
+//    @Pattern(regexp = "^[a-zA-Z-]+$", message = "Może zawierać tylko małe i duże litery.")
     @Column(name = "surname")
     private String surname;
 
-    @NotBlank(message = "Pole wymagane.")
-    @Pattern(regexp = "^[a-zA-Z]+$")
+//    @NotBlank(message = "Pole wymagane.")
+//    @Pattern(regexp = "(woman|man)", message = "Błędne dane.")
     @Column(name = "sex")
     private String gender;
 
-//    TODO: add validation for dates
+    //    TODO: add validation for dates
+//    @PastOrPresent
     @Column(name = "birthday")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthDate;
@@ -45,44 +41,65 @@ public class Patient {
     @Column(name = "age")
     private int age;
 
+    //    TODO: add validation for dates
+//    @PastOrPresent
     @Column(name = "date_positive")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate datePositive;
-    
+
+    //    TODO: add validation for dates
+//    @PastOrPresent
     @Column(name = "date_information")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateInformation;
-    
+
+
     @Column(name = "residence_city")
     private String residenceCity;
-    
+
+
     @Column(name = "residence_district")
     private String residenceDistrict;
-    
+
+
     @Column(name = "stay_city")
     private String stayCity;
-    
+
+
     @Column(name = "stay_district")
     private String stayDistrict;
 
+    //    TODO: add validation for boolean
     @Column(name = "hospitalized")
     private Boolean hospitalized;
 
+
     @Column(name = "hospital_name")
     private String hospitalName;
-    
+
+    //    TODO: add validation for boolean
     @Column(name = "quarantine")
     private Boolean inQuarantine;
 
+    //    TODO: add validation for boolean
     @Column(name = "supervision")
     private Boolean supervision;
+
 
     @Column(name = "laboratory")
     private String labName;
 
+
     @Column(name = "infection_source")
     private String infectionSource;
 
+
     @Column(name = "telephone_number")
-    private Integer phoneNumber;
+    private String phoneNumber;
+
+
+    @Column(name = "email")
+    private String email;
 
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH},
@@ -94,7 +111,7 @@ public class Patient {
     public Patient() {
     }
 
-    public Patient(String name, String surname, String gender, LocalDate birthDate, int age, LocalDate datePositive, LocalDate dateInformation, String residenceCity, String residenceDistrict, String stayCity, String stayDistrict, Boolean hospitalized, String hospitalName, Boolean inQuarantine, Boolean supervision, String labName, String infectionSource, int phoneNumber) {
+    public Patient(String name, String surname, String gender, LocalDate birthDate, int age, LocalDate datePositive, LocalDate dateInformation, String residenceCity, String residenceDistrict, String stayCity, String stayDistrict, Boolean hospitalized, String hospitalName, Boolean inQuarantine, Boolean supervision, String labName, String infectionSource, String phoneNumber, String email) {
         this.name = name;
         this.surname = surname;
         this.gender = gender;
@@ -113,6 +130,7 @@ public class Patient {
         this.labName = labName;
         this.infectionSource = infectionSource;
         this.phoneNumber = phoneNumber;
+        this.email = email;
     }
 
     public Integer getId() {
@@ -266,11 +284,11 @@ public class Patient {
         this.infectionSource = infectionSource;
     }
 
-    public Integer getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(Integer phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
@@ -280,5 +298,13 @@ public class Patient {
 
     public void setCreator(User creator) {
         this.creator = creator;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

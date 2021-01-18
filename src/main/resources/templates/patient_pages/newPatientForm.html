@@ -53,7 +53,7 @@
 			<ul class="navbar-nav ml-auto">
 
 				<li class="nav-item">
-               <a class="nav-link" th:href="@{/}">  Strona&nbsp;Domowa  <i class="fas fa-home"></i>  </a>
+               <a class="nav-link" th:href="@{/}">Strona&nbsp;Domowa  <i class="fas fa-home"></i>  </a>
             </li>
 				<li class="nav-item">
                <a class="nav-link" th:href="@{/patient/new}">Wprowadzenie&nbsp;Zgłoszenia <i class="far fa-sticky-note"></i></a>
@@ -62,10 +62,10 @@
                <a class="nav-link" href="#">Raporty&nbsp;Word <i class="far fa-file-word"></i></a>
             </li>
 				<li class="nav-item">
-               <a class="nav-link" href="#">Raporty&nbsp;Excel  <i class="far fa-file-excel"></i></a>
+               <a class="nav-link" th:href="@{/users/export/excel}">Generuj Raport Excel  <i class="far fa-file-excel"></i></a>
             </li>
 				<li class="nav-item">
-               <a id="logout" class="nav-link" href="@{/logout}">  Wyloguj&nbsp;się   <i class="fas fa-sign-out-alt"></i>  </a>
+               <a id="logout" class="nav-link" th:href="@{/logout}">Wyloguj&nbsp;się  <i class="fas fa-sign-out-alt"></i>  </a>
             </li>
 
 			</ul>
@@ -105,7 +105,6 @@
    <div class="row welcome justify-content-center">
       <div class="col-sm-12 col-md-10">
          <p class="lead">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos enim cupiditate officiis a iure, nihil magnam, aut odit ullam fuga nostrum sit blanditiis exercitationem neque ducimus modi animi dignissimos accusamus.
          </p>
       </div>
    </div>
@@ -116,7 +115,7 @@
    <form th:action="@{/patient/save}"  th:object="${newPatient}" method="POST" id="form_primary">
       <div class="row justify-content-center">
          
-         <div class="col-xs-12 col-md-2 col-lg-1">
+         <div class="col-xs-6 col-md-4 col-lg-1.5">
             <!-- IMIE -->
             <div class="form-group">
                <label for="">Imię</label>
@@ -127,7 +126,7 @@
          </div>       
          
          <!-- NAZWISKO -->
-         <div class="col-xs-12 col-md-2 col-lg-1">
+         <div class="col-xs-6 col-md-4 col-lg-1.5">
             <div class="form-group">
                <label for="">Nazwisko</label>
                <input type="text" class="form-control" placeholder="Nazwisko"  th:field="${newPatient.surname}">
@@ -137,10 +136,10 @@
          </div>
          
          <!-- PLEC -->
-         <div class="col-xs-12 col-md-2 col-lg-1">
+         <div class="col-xs-6 col-md-4 col-lg-2">
             <div class="form-group">
                <label for="">Płeć</label>
-               <select th:field="${newPatient.gender}" id="" class="form-control">
+               <select th:field="${newPatient.gender}"  class="form-control">
                   <option th:value="woman">Kobieta</option>
                   <option th:value="men">Mężczyzna</option>
                </select>
@@ -148,26 +147,231 @@
          </div>
 
          <!-- DATA URODZENIA -->
-         <div class="col-xs-12 col-md-1.5">                   
+         <div class="col-xs-6 col-md-1.5">                   
             <div class="form-group">
                <label for="">Data Urodzenia</label>
-               <input type="date" class="form-control" placeholder="Data" th:field="${newPatient.birthDate}" name="date" value="2000-10-23" >
+               <input type="date" id="birthDate" class="form-control" placeholder="Data" th:field="${newPatient.birthDate}" name="date">
             </div>
          </div>
 
-         <!-- PRZESLANIE FORMULARZA -->
-         <div class="col-xs-12 col-md-2 col-lg-1">
-            <div class="form-group" style="padding-top: 1.99rem;">
-               <input type="submit"  class="btn btn-primary">
+<div class="row justify-content-center">
+
+		 <!-- Email -->
+         <div class="col-xs-6 col-md-4 col-lg-1.5">
+            <div class="form-group">
+               <label for="">Email</label>
+               <input type="text" class="form-control" placeholder="Email"  th:field="${newPatient.email}">
+                <span th:if="${#fields.hasErrors('email')}"
+                      th:errors="${newPatient.email}"></span>
             </div>
          </div>
 
-      </div>        
-   </form>
+	<!-- Telefon -->
+         <div class="col-xs-6 col-md-4 col-lg-1.5">
+            <div class="form-group">
+               <label for="">Numer telefonu</label>
+               <input type="text" class="form-control" placeholder="Numer"  th:field="${newPatient.phoneNumber}">
+                <span th:if="${#fields.hasErrors('phoneNumber')}"
+                      th:errors="${newPatient.phoneNumber}"></span>
+            </div>
+         </div>
 
- 
-   
-</div>
+ <div class="row justify-content-center">
 
-</body>
+		<!-- DATA TESTU DODATNIEGO -->
+         <div class="col-xs-6 col-md-3">
+            <div class="form-group">
+               <label for="">Data uzyskania wyniku dodatniego</label>
+               <input type="date" id="datePositive" class="form-control" placeholder="Data" th:field="${newPatient.datePositive}" name="date">
+            </div>
+         </div>
+
+		<!-- DATA POZYSKANIA INFORMACJI -->
+         <div class="col-xs-6 col-md-3">
+            <div class="form-group">
+               <label for="">Data pozyskania informacji przez PSSE</label>
+               <input type="date" id="dateInformation" class="form-control" placeholder="Data" th:field="${newPatient.dateInformation}" name="date">
+            </div>
+         </div>
+
+	<!-- Źródło  -->
+         <div class="col-xs-6 col-md-4 col-lg-1.5">
+            <div class="form-group">
+               <label for="">Źródło zakażenia</label>
+               <input type="text" class="form-control" placeholder="Źródło"  th:field="${newPatient.infectionSource}">
+                <span th:if="${#fields.hasErrors('infectionSource')}"
+                      th:errors="${newPatient.infectionSource}"></span>
+            </div>
+         </div>
+
+
+         <div class="row justify-content-center">
+
+             <!-- Miejscowość zamieszkania  -->
+             <div class="col-xs-6 col-md-4 col-lg-3.5">
+                 <div class="form-group">
+                     <label for="">Miejscowość zamieszkania chorego</label>
+                     <input type="text" class="form-control" placeholder="Miejscowość"  th:field="${newPatient.residenceCity}">
+                     <span th:if="${#fields.hasErrors('residenceCity')}"
+                           th:errors="${newPatient.residenceCity}"></span>
+                 </div>
+             </div>
+
+             <!-- Wojewodzctwo zamieszkania  -->
+             <div class="col-xs-6 col-md-4 col-lg-3.5">
+                 <div class="form-group">
+                     <label for="">Wojewódzctwo</label>
+                     <select th:field="${newPatient.residenceDistrict}" id="" class="form-control">
+                         <option th:value="Dolnośląskie">Dolnośląskie</option>
+                         <option th:value="Kujawsko-Pomorskie">Kujawsko-Pomorskie</option>
+                         <option th:value="Lubelskie">Lubelskie</option>
+                         <option th:value="Lubuskie">Lubuskie</option>
+                         <option th:value="Łódzkie">Łódzkie</option>
+                         <option th:value="Małopolskie">Małopolskie</option>
+                         <option th:value="Mazowieckie">Mazowieckie</option>
+                         <option th:value="Opolskie">Opolskie</option>
+                         <option th:value="Podkarpackie">Podkarpackie</option>
+                         <option th:value="Podlaskie">Podlaskie</option>
+                         <option th:value="Pomorskie">Pomorskie</option>
+                         <option th:value="Śląskie">Śląskie</option>
+                         <option th:value="Świętokrzyskie">Świętokrzyskie</option>
+                         <option th:value="war-maz">Warmińsko-Mazurskie</option>
+                         <option th:value="Warmińsko-Mazurskie">Wielkopolskie</option>
+                         <option th:value="Zachodniopomorskie">Zachodniopomorskie</option>
+                     </select>
+                 </div>
+             </div>
+
+             <div class="row justify-content-center">
+                 <!-- Miejscowość pobytu  -->
+                 <div class="col-xs-6 col-md-4 col-lg-3.5">
+                     <div class="form-group">
+                         <label for="">Miejscowość pobytu chorego</label>
+                         <input type="text" class="form-control" placeholder="Miejscowość"  th:field="${newPatient.stayCity}">
+                         <span th:if="${#fields.hasErrors('stayCity')}"
+                               th:errors="${newPatient.stayCity}"></span>
+                     </div>
+                 </div>
+
+                 <!-- Wojewodzctwo zamieszkania  -->
+                 <div class="col-xs-6 col-md-4 col-lg-3.5">
+                     <div class="form-group">
+                         <label for="">Wojewódzctwo</label>
+                         <select th:field="${newPatient.stayDistrict}" id="" class="form-control">
+                             <option th:value="Dolnośląskie">Dolnośląskie</option>
+                             <option th:value="Kujawsko-Pomorskie">Kujawsko-Pomorskie</option>
+                             <option th:value="Lubelskie">Lubelskie</option>
+                             <option th:value="Lubuskie">Lubuskie</option>
+                             <option th:value="Łódzkie">Łódzkie</option>
+                             <option th:value="Małopolskie">Małopolskie</option>
+                             <option th:value="Mazowieckie">Mazowieckie</option>
+                             <option th:value="Opolskie">Opolskie</option>
+                             <option th:value="Podkarpackie">Podkarpackie</option>
+                             <option th:value="Podlaskie">Podlaskie</option>
+                             <option th:value="Pomorskie">Pomorskie</option>
+                             <option th:value="Śląskie">Śląskie</option>
+                             <option th:value="Świętokrzyskie">Świętokrzyskie</option>
+                             <option th:value="war-maz">Warmińsko-Mazurskie</option>
+                             <option th:value="Warmińsko-Mazurskie">Wielkopolskie</option>
+                             <option th:value="Zachodniopomorskie">Zachodniopomorskie</option>
+                         </select>
+                     </div>
+                 </div>
+                 <div class="row justify-content-center">
+                     <!-- Laboratorium  -->
+                     <div class="col-xs-6 col-md-4 col-lg-3.5">
+                         <div class="form-group">
+                             <label for="">Laboratorium badające</label>
+                             <input type="text" class="form-control" placeholder="Nazwa"  th:field="${newPatient.labName}">
+                             <span th:if="${#fields.hasErrors('labName')}"
+                                   th:errors="${newPatient.labName}"></span>
+                         </div>
+                     </div>
+
+
+                     <!-- Hospitalizacja -->
+                     <div class="col-xs-6 col-md-4 col-lg-3">
+                         <div class="form-group">
+                             <label for="">Hospitalizacja</label>
+                             <select th:field="${newPatient.hospitalized}" id="" class="form-control">
+                                 <option th:value="true">Tak</option>
+                                 <option th:value="false">Nie</option>
+                             </select>
+                         </div>
+                     </div>
+
+
+                     <!-- Szpital  -->
+                     <div class="col-xs-6 col-md-4 col-lg-3.5">
+                         <div class="form-group">
+                             <label for="">Nazwa szpitala</label>
+                             <input type="text" class="form-control" placeholder="Nazwa"  th:field="${newPatient.hospitalName}">
+                             <span th:if="${#fields.hasErrors('hospitalName')}"
+                                   th:errors="${newPatient.hospitalName}"></span>
+                         </div>
+                     </div>
+
+                     <div class="row justify-content-center">
+
+
+                         <!-- Kwarantanna -->
+                         <div class="col-xs-6 col-md-4 col-lg-4">
+                             <div class="form-group">
+                                 <label for="">Kwarantanna</label>
+                                 <select th:field="${newPatient.inQuarantine}" id="" class="form-control">
+                                     <option th:value="true">Tak</option>
+                                     <option th:value="false">Nie</option>
+                                 </select>
+                             </div>
+                         </div>
+
+                         <!-- Nadzór -->
+                         <div class="col-xs-6 col-md-4 col-lg-4">
+                             <div class="form-group">
+                                 <label for="">Nadzór</label>
+                                 <select th:field="${newPatient.supervision}" id="" class="form-control">
+                                     <option th:value="true">Tak</option>
+                                     <option th:value="false">Nie</option>
+                                 </select>
+                             </div>
+                         </div>
+
+
+                         <!-- PRZESLANIE FORMULARZA -->
+                         <div class="col-xs-6 col-md-4 col-lg-1">
+                             <div class="form-group" style="padding-top: 1.99rem;">
+                                 <input type="submit"  class="btn btn-primary">
+                             </div>
+                         </div>
+
+                     </div>
+       </form>
+
+
+
+    </div>
+
+
+        <script>
+            function loadFunction() {
+                var today = new Date();
+                var dd = today.getDate();
+                var mm = today.getMonth()+1; //January is 0!
+                var yyyy = today.getFullYear();
+
+                if(dd<10){
+                    dd='0'+dd;
+                }
+                if(mm<10){
+                    mm='0'+mm;
+                }
+
+                today = yyyy+'-'+mm+'-'+dd;
+                document.getElementById("birthDate").defaultValue=today+"";
+                document.getElementById("datePositive").defaultValue=today+"";
+                document.getElementById("dateInformation").defaultValue=today+"";
+            }
+        </script>
+
+    </body>
 </html>

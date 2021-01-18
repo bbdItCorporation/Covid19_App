@@ -1,8 +1,11 @@
 package com.bbd.Covid19_App.controllers;
 
-import com.bbd.Covid19_App.entities.User;
+
+
+import com.bbd.Covid19_App.services.ExcelService;
 import com.bbd.Covid19_App.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -12,12 +15,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+
 
 @Controller
 public class UserController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    ExcelService excelService;
 
     @GetMapping("/login")
     public String login() {
@@ -33,6 +42,19 @@ public class UserController {
         return "redirect:/login?logout";
     }
 
+    @GetMapping("/users/export/excel")
+    public void exportToExcel(HttpServletResponse response) throws IOException {
+        response.setContentType("application/octet-stream");
+
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment; filename=users.xlsx";
+        response.setHeader(headerKey, headerValue);
+
+
+        ExcelService excelService = new ExcelService();
+
+        excelService.export(response);
+    }
 
 //    TODO: method to display all users
 //    TODO: method to search by name and surname and value of enabled

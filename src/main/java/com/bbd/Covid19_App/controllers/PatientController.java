@@ -14,6 +14,8 @@ import org.springframework.ui.Model;
 import javax.validation.Valid;
 
 
+
+
 @Controller
 @RequestMapping("/patient")
 public class PatientController {
@@ -42,12 +44,14 @@ public class PatientController {
 
         String login = authentication.getName();
         User currentUser = userService.findByLogin(login);
-
         patient.setCreator(currentUser);
+
         patient.setAge();
         patientService.save(patient);
         return "redirect:/";
     }
+
+
 
 //    TODO: add method to display patients list (TOP 10) - @GetMapping("/search")
 //    TODO: add methods to display patients by criteria - @GetMapping("/searchAllByCriteria")
