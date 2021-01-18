@@ -140,8 +140,8 @@
             <div class="form-group">
                <label for="">Płeć</label>
                <select th:field="${newPatient.gender}"  class="form-control">
-                  <option th:value="woman">Kobieta</option>
-                  <option th:value="men">Mężczyzna</option>
+                  <option th:value="K">Kobieta</option>
+                  <option th:value="M">Mężczyzna</option>
                </select>
             </div>
          </div>
@@ -220,7 +220,7 @@
              <!-- Wojewodzctwo zamieszkania  -->
              <div class="col-xs-6 col-md-4 col-lg-3.5">
                  <div class="form-group">
-                     <label for="">Wojewódzctwo</label>
+                     <label for="">Województwo</label>
                      <select th:field="${newPatient.residenceDistrict}" id="" class="form-control">
                          <option th:value="Dolnośląskie">Dolnośląskie</option>
                          <option th:value="Kujawsko-Pomorskie">Kujawsko-Pomorskie</option>
@@ -256,7 +256,7 @@
                  <!-- Wojewodzctwo zamieszkania  -->
                  <div class="col-xs-6 col-md-4 col-lg-3.5">
                      <div class="form-group">
-                         <label for="">Wojewódzctwo</label>
+                         <label for="">Województwo</label>
                          <select th:field="${newPatient.stayDistrict}" id="" class="form-control">
                              <option th:value="Dolnośląskie">Dolnośląskie</option>
                              <option th:value="Kujawsko-Pomorskie">Kujawsko-Pomorskie</option>
@@ -367,9 +367,9 @@
                 }
 
                 today = yyyy+'-'+mm+'-'+dd;
-                document.getElementById("birthDate").defaultValue=today+"";
-                document.getElementById("datePositive").defaultValue=today+"";
-                document.getElementById("dateInformation").defaultValue=today+"";
+                document.getElementById("birthDate").value=today+"";
+                document.getElementById("datePositive").value=today+"";
+                document.getElementById("dateInformation").value=today+"";
             }
         </script>
 

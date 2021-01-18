@@ -5,6 +5,8 @@ import com.bbd.Covid19_App.dao.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PatientService  {
 
@@ -15,7 +17,7 @@ public class PatientService  {
         return patientRepository.save(patient);
     }
 
-    public Iterable<Patient> findAll() {
+    public List<Patient> findAll() {
         return patientRepository.findAll();
     }
 

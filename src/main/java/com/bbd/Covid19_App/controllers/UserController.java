@@ -2,7 +2,9 @@ package com.bbd.Covid19_App.controllers;
 
 
 
-import com.bbd.Covid19_App.services.ExcelService;
+import com.bbd.Covid19_App.entities.Patient;
+import com.bbd.Covid19_App.docGenerators.ExcelGenerator;
+import com.bbd.Covid19_App.services.PatientService;
 import com.bbd.Covid19_App.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -16,7 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-
+import java.util.List;
 
 
 @Controller
@@ -26,7 +28,7 @@ public class UserController {
     UserService userService;
 
     @Autowired
-    ExcelService excelService;
+    PatientService patientService;
 
     @GetMapping("/login")
     public String login() {
@@ -47,13 +49,13 @@ public class UserController {
         response.setContentType("application/octet-stream");
 
         String headerKey = "Content-Disposition";
-        String headerValue = "attachment; filename=users.xlsx";
+        String headerValue = "attachment; filename=patientExcelReport.xlsx";
         response.setHeader(headerKey, headerValue);
 
+        List<Patient> patients = patientService.findAll();
 
-        ExcelService excelService = new ExcelService();
-
-        excelService.export(response);
+        ExcelGenerator excelGenerator = new ExcelGenerator(patients);
+        excelGenerator.export(response);
     }
 
 //    TODO: method to display all users
