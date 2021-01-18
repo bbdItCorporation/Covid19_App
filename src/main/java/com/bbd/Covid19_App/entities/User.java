@@ -1,6 +1,11 @@
 package com.bbd.Covid19_App.entities;
 
+import com.bbd.Covid19_App.validators.UniqueLogin;
+import org.hibernate.validator.constraints.Length;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import java.util.List;
 
 @Entity
@@ -12,18 +17,35 @@ public class User {
     @Column(name = "user_id")
     private Integer userId;
 
+    @NotBlank(message = "Pole wymagane.")
+    @Pattern(regexp = "^[a-zA-ZłęóąśżźćńĄĘÓŁŚŻŹĆŃ]+$", message = "Pole może zawierać tylko małe i duże litery.")
     @Column(name = "name")
     private String name;
 
+    @NotBlank(message = "Pole wymagane.")
+    @Pattern(regexp = "^[a-zA-ZłęóąśżźćńĄĘÓŁŚŻŹĆŃ]+$", message = "Pole może zawierać tylko małe i duże litery.")
     @Column(name = "surname")
     private String surname;
 
+    @UniqueLogin(message = "Podany login jest już zajęty.")
+    @NotBlank(message = "Pole wymagane.")
+    @Pattern(regexp = "^[a-złęóąśżźćń0-9_#]+$", message =  "Login zawiera nieprawidłowe znaki.")
+//    TODO:
+//    Dodać opis w html, o niewrażliwości na wielkość liter
+//    "Login może zawierać tylko małe, cyfry oraz znaki specjalne: \"_\", \"#\"."
     @Column(name = "login")
     private String login;
 
+    @NotBlank(message = "Pole wymagane.")
+    @Pattern(regexp = "^[a-zA-ZłęóąśżźćńĄĘÓŁŚŻŹĆŃ0-9_#]+$", message = "Hasło zawiera nieprawidłowe znaki.")
+//    TODO:
+//    "Hasło może zawierać tylko małe oraz duże litery, cyfry i znaki specjalne: \"_\", \"#\"."
     @Column(name = "password")
     private String password;
 
+    @NotBlank(message = "Pole wymagane.")
+    @Length(min=3, message="Pole wymagane.")
+    @Pattern(regexp = "(user|admin)", message = "Pole wymagane.")
     @Column(name = "role")
     private String role = "user"; // TODO: field while adding new users to choose role: admin or user
 

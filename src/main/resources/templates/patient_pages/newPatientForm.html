@@ -140,9 +140,12 @@
             <div class="form-group">
                <label for="">Płeć</label>
                <select th:field="${newPatient.gender}"  class="form-control">
-                  <option th:value="K">Kobieta</option>
-                  <option th:value="M">Mężczyzna</option>
+                   <option th:value="ph">Proszę wybrać...</option>
+                   <option th:value="K">Kobieta</option>
+                   <option th:value="M">Mężczyzna</option>
                </select>
+                <span th:if="${#fields.hasErrors('gender')}"
+                      th:errors="${newPatient.gender}"></span>
             </div>
          </div>
 
@@ -151,6 +154,8 @@
             <div class="form-group">
                <label for="">Data Urodzenia</label>
                <input type="date" id="birthDate" class="form-control" placeholder="Data" th:field="${newPatient.birthDate}" name="date">
+                <span th:if="${#fields.hasErrors('birthDate')}"
+                      th:errors="${newPatient.birthDate}"></span>
             </div>
          </div>
 
@@ -183,6 +188,8 @@
             <div class="form-group">
                <label for="">Data uzyskania wyniku dodatniego</label>
                <input type="date" id="datePositive" class="form-control" placeholder="Data" th:field="${newPatient.datePositive}" name="date">
+                <span th:if="${#fields.hasErrors('datePositive')}"
+                      th:errors="${newPatient.datePositive}"></span>
             </div>
          </div>
 
@@ -191,6 +198,8 @@
             <div class="form-group">
                <label for="">Data pozyskania informacji przez PSSE</label>
                <input type="date" id="dateInformation" class="form-control" placeholder="Data" th:field="${newPatient.dateInformation}" name="date">
+                <span th:if="${#fields.hasErrors('dateInformation')}"
+                      th:errors="${newPatient.dateInformation}"></span>
             </div>
          </div>
 
@@ -222,6 +231,7 @@
                  <div class="form-group">
                      <label for="">Województwo</label>
                      <select th:field="${newPatient.residenceDistrict}" id="" class="form-control">
+                         <option th:value="ph">Proszę wybrać...</option>
                          <option th:value="Dolnośląskie">Dolnośląskie</option>
                          <option th:value="Kujawsko-Pomorskie">Kujawsko-Pomorskie</option>
                          <option th:value="Lubelskie">Lubelskie</option>
@@ -235,10 +245,12 @@
                          <option th:value="Pomorskie">Pomorskie</option>
                          <option th:value="Śląskie">Śląskie</option>
                          <option th:value="Świętokrzyskie">Świętokrzyskie</option>
-                         <option th:value="war-maz">Warmińsko-Mazurskie</option>
-                         <option th:value="Warmińsko-Mazurskie">Wielkopolskie</option>
+                         <option th:value="Warmińsko-Mazurski">Warmińsko-Mazurskie</option>
+                         <option th:value="Wielkopolskie">Wielkopolskie</option>
                          <option th:value="Zachodniopomorskie">Zachodniopomorskie</option>
                      </select>
+                     <span th:if="${#fields.hasErrors('residenceDistrict')}"
+                           th:errors="${newPatient.residenceDistrict}"></span>
                  </div>
              </div>
 
@@ -258,6 +270,7 @@
                      <div class="form-group">
                          <label for="">Województwo</label>
                          <select th:field="${newPatient.stayDistrict}" id="" class="form-control">
+                             <option th:value="ph">Proszę wybrać...</option>
                              <option th:value="Dolnośląskie">Dolnośląskie</option>
                              <option th:value="Kujawsko-Pomorskie">Kujawsko-Pomorskie</option>
                              <option th:value="Lubelskie">Lubelskie</option>
@@ -275,6 +288,8 @@
                              <option th:value="Warmińsko-Mazurskie">Wielkopolskie</option>
                              <option th:value="Zachodniopomorskie">Zachodniopomorskie</option>
                          </select>
+                         <span th:if="${#fields.hasErrors('stayDistrict')}"
+                               th:errors="${newPatient.stayDistrict}"></span>
                      </div>
                  </div>
                  <div class="row justify-content-center">
@@ -294,8 +309,8 @@
                          <div class="form-group">
                              <label for="">Hospitalizacja</label>
                              <select th:field="${newPatient.hospitalized}" id="" class="form-control">
-                                 <option th:value="true">Tak</option>
                                  <option th:value="false">Nie</option>
+                                 <option th:value="true">Tak</option>
                              </select>
                          </div>
                      </div>
@@ -319,8 +334,8 @@
                              <div class="form-group">
                                  <label for="">Kwarantanna</label>
                                  <select th:field="${newPatient.inQuarantine}" id="" class="form-control">
-                                     <option th:value="true">Tak</option>
                                      <option th:value="false">Nie</option>
+                                     <option th:value="true">Tak</option>
                                  </select>
                              </div>
                          </div>
@@ -330,8 +345,8 @@
                              <div class="form-group">
                                  <label for="">Nadzór</label>
                                  <select th:field="${newPatient.supervision}" id="" class="form-control">
-                                     <option th:value="true">Tak</option>
                                      <option th:value="false">Nie</option>
+                                     <option th:value="true">Tak</option>
                                  </select>
                              </div>
                          </div>

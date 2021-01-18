@@ -3,6 +3,7 @@ package com.bbd.Covid19_App.entities;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.time.Period;
 
@@ -16,24 +17,24 @@ public class Patient {
     @Column(name = "patient_id")
     private Integer patientId;
 
-//    @NotBlank(message = "Pole wymagane.")
-//    @Pattern(regexp = "^[a-zA-Z]+$", message = "Może zawierać tylko małe i duże litery.")
-    @Length(max=50)
+    @NotBlank(message = "Pole wymagane.")
+    @Pattern(regexp = "^[a-zA-ZłęóąśżźćńĄĘÓŁŚŻŹĆŃ]+$", message = "Pole może zawierać tylko małe i duże litery.")
     @Column(name = "name")
     private String name;
 
-//    @NotBlank(message = "Pole wymagane.")
-//    @Pattern(regexp = "^[a-zA-Z-]+$", message = "Może zawierać tylko małe i duże litery.")
+    @NotBlank(message = "Pole wymagane.")
+    @Pattern(regexp = "^[a-zA-ZłęóąśżźćńĄĘÓŁŚŻŹĆŃ]+$", message = "Pole może zawierać tylko małe i duże litery.")
     @Column(name = "surname")
     private String surname;
 
-//    @NotBlank(message = "Pole wymagane.")
-//    @Pattern(regexp = "(woman|man)", message = "Błędne dane.")
+    @Pattern(regexp = "(M|K)", message = "Błędne dane.")
+    @NotBlank(message = "Pole wymagane.")
+    @Length(max=1, message = "Pole wymagane.")
     @Column(name = "sex")
     private String gender;
 
-    //    TODO: add validation for dates
-//    @PastOrPresent
+    @PastOrPresent(message = "Data może przypadać na dni minione lub obecny.")
+    @NotNull(message = "Pole wymagane.")
     @Column(name = "birthday")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthDate;
@@ -41,66 +42,70 @@ public class Patient {
     @Column(name = "age")
     private int age;
 
-    //    TODO: add validation for dates
-//    @PastOrPresent
+    @PastOrPresent(message = "Data może przypadać na dni minione lub obecny.")
+    @NotNull(message = "Pole wymagane.")
     @Column(name = "date_positive")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate datePositive;
 
-    //    TODO: add validation for dates
-//    @PastOrPresent
+    @PastOrPresent(message = "Data może przypadać na dni minione lub obecny.")
+    @NotNull(message = "Pole wymagane.")
     @Column(name = "date_information")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateInformation;
 
-
+    @NotBlank(message = "Pole wymagane.")
+    @Pattern(regexp = "^[a-zA-ZłęóąśżźćńĄĘÓŁŚŻŹĆŃ]+$", message = "Pole może zawierać tylko małe i duże litery.")
     @Column(name = "residence_city")
     private String residenceCity;
 
-
+    @NotBlank(message = "Pole wymagane.")
+    @Length(min=3, message="Pole wymagane.")
+    @Pattern(regexp = "^[a-zA-ZłęóąśżźćńĄĘÓŁŚŻŹĆŃ]+$", message = "Pole może zawierać tylko małe i duże litery.")
     @Column(name = "residence_district")
     private String residenceDistrict;
 
-
+    @NotBlank(message = "Pole wymagane.")
+    @Pattern(regexp = "^[a-zA-ZłęóąśżźćńĄĘÓŁŚŻŹĆŃ]+$", message = "Pole może zawierać tylko małe i duże litery.")
     @Column(name = "stay_city")
     private String stayCity;
 
-
+    @NotBlank(message = "Pole wymagane.")
+    @Length(min=3, message="Pole wymagane.")
+    @Pattern(regexp = "^[a-zA-ZłęóąśżźćńĄĘÓŁŚŻŹĆŃ]+$", message = "Pole może zawierać tylko małe i duże litery.")
     @Column(name = "stay_district")
     private String stayDistrict;
 
-    //    TODO: add validation for boolean
-    @Column(name = "hospitalized")
-    private Boolean hospitalized;
-
-
+    @Pattern(regexp = "^[a-zA-ZłęóąśżźćńĄĘÓŁŚŻŹĆŃ]*$", message = "Pole może zawierać tylko małe i duże litery.")
     @Column(name = "hospital_name")
     private String hospitalName;
 
-    //    TODO: add validation for boolean
+    @Column(name = "hospitalized")
+    private Boolean hospitalized;
+
     @Column(name = "quarantine")
     private Boolean inQuarantine;
 
-    //    TODO: add validation for boolean
     @Column(name = "supervision")
     private Boolean supervision;
 
-
+    @Pattern(regexp = "^[a-zA-ZłęóąśżźćńĄĘÓŁŚŻŹĆŃ]*$", message = "Pole może zawierać tylko małe i duże litery.")
     @Column(name = "laboratory")
     private String labName;
 
-
+    @Pattern(regexp = "^[a-zA-ZłęóąśżźćńĄĘÓŁŚŻŹĆŃ]*$", message = "Pole może zawierać tylko małe i duże litery.")
     @Column(name = "infection_source")
     private String infectionSource;
 
-
+    @NotBlank(message = "Pole wymagane.")
+    @Pattern(regexp = "^[0-9]{9}$", message = "Błędny numer telefonu.")
     @Column(name = "telephone_number")
     private String phoneNumber;
 
-
+    @NotBlank(message = "Pole wymagane.")
+    @Email(message = "Błędny adres email.")
     @Column(name = "email")
     private String email;
-
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH},
                fetch = FetchType.LAZY)
