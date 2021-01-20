@@ -23,23 +23,18 @@ public class User {
     private String name;
 
     @NotBlank(message = "Pole wymagane.")
-    @Pattern(regexp = "^[a-zA-ZłęóąśżźćńĄĘÓŁŚŻŹĆŃ]+$", message = "Pole może zawierać tylko małe i duże litery.")
+    @Pattern(regexp = "^[a-zA-ZłęóąśżźćńĄĘÓŁŚŻŹĆŃ-]+$", message = "Pole może zawierać tylko małe, duże litery lub \"-\".")
     @Column(name = "surname")
     private String surname;
 
     @UniqueLogin(message = "Podany login jest już zajęty.")
     @NotBlank(message = "Pole wymagane.")
-    @Pattern(regexp = "^[a-złęóąśżźćń0-9_#]+$", message =  "Login zawiera nieprawidłowe znaki.")
-//    TODO:
-//    Dodać opis w html, o niewrażliwości na wielkość liter
-//    "Login może zawierać tylko małe, cyfry oraz znaki specjalne: \"_\", \"#\"."
+    @Pattern(regexp = "^[a-złęóąśżźćń0-9_#]+$", message =  "Podany login zawiera nieprawidłowe znaki.")
     @Column(name = "login")
     private String login;
 
     @NotBlank(message = "Pole wymagane.")
     @Pattern(regexp = "^[a-zA-ZłęóąśżźćńĄĘÓŁŚŻŹĆŃ0-9_#]+$", message = "Hasło zawiera nieprawidłowe znaki.")
-//    TODO:
-//    "Hasło może zawierać tylko małe oraz duże litery, cyfry i znaki specjalne: \"_\", \"#\"."
     @Column(name = "password")
     private String password;
 

@@ -33,12 +33,16 @@ public class AdminController {
         return "user_pages/newUserForm.html";
     }
 
-//    TODO: add validation for a password and login
+
     @PostMapping("/register/save")
-//    public String savePatient(@Valid @ModelAttribute("newUser") User user, Errors errors, Authentication authentication) {
-    public String saveNewUser(Model model, User newUser) {
-        newUser.setPassword(bCryptPasswordEncoder.encode(newUser.getPassword()));
-        userService.save(newUser);
+    public String savePatient(@Valid @ModelAttribute("newUser") User user, Errors errors, Authentication authentication) {
+
+        if (errors.hasErrors()) {
+            return "user_pages/newUserForm.html";
+        }
+
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        userService.save(user);
         return "redirect:/";
     }
 }

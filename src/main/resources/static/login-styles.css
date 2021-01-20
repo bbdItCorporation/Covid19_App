@@ -41,7 +41,7 @@
    #login-form {
       background-image: linear-gradient(120deg, rgba(255, 255, 255, 0.9), rgba(208, 206, 223, 0.9));
       box-shadow: rgba(0, 0, 0, 0.6) 0.1rem 0.1rem 1rem;        
-      padding: 5rem; 
+      padding: 5rem;
    }
 
    #welcome-login {

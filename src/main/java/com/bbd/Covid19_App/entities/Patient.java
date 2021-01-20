@@ -23,7 +23,7 @@ public class Patient {
     private String name;
 
     @NotBlank(message = "Pole wymagane.")
-    @Pattern(regexp = "^[a-zA-ZłęóąśżźćńĄĘÓŁŚŻŹĆŃ]+$", message = "Pole może zawierać tylko małe i duże litery.")
+    @Pattern(regexp = "^[a-zA-ZłęóąśżźćńĄĘÓŁŚŻŹĆŃ-]+$", message = "Pole może zawierać tylko małe, duże litery lub \"-\".")
     @Column(name = "surname")
     private String surname;
 

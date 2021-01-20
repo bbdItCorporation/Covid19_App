@@ -40,9 +40,8 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
 	<div class="container-fluid">
 		<a class="navbar-brand" href="index.html">
-         <!-- <img src="" alt="Logo"> potem się doda logo jakies-->
-         Aplikacja PSSE Gliwice
-         <i class="fas fa-home"></i>
+            <i class="fas fa-home"></i>
+            Aplikacja PSSE Gliwice
       </a>
 
 		<button class="navbar-toggler" type="toggle" data-toggle="collapse" data-target="#navbarResponsive">
@@ -56,13 +55,16 @@
                <a class="nav-link" th:href="@{/}">Strona&nbsp;Domowa  <i class="fas fa-home"></i>  </a>
             </li>
 				<li class="nav-item">
-               <a class="nav-link" th:href="@{/patient/new}">Wprowadzenie&nbsp;Zgłoszenia <i class="far fa-sticky-note"></i></a>
+               <a class="nav-link" th:href="@{/patient/new}">Dodaj pacjenta <i class="far fa-sticky-note"></i></a>
             </li>
 				<li class="nav-item">
                <a class="nav-link" href="#">Raporty&nbsp;Word <i class="far fa-file-word"></i></a>
             </li>
 				<li class="nav-item">
                <a class="nav-link" th:href="@{/export/excel}">Generuj Raport Excel  <i class="far fa-file-excel"></i></a>
+            </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/admin/register}">Użytkownik  <i class="far fa-list-item"></i></a>
             </li>
 				<li class="nav-item">
                <a id="logout" class="nav-link" th:href="@{/logout}">Wyloguj&nbsp;się  <i class="fas fa-sign-out-alt"></i>  </a>
@@ -78,7 +80,7 @@
 <div class="container-fluid padding">
    <div class="row welcome text-center">
       <div class="col-12">
-         <h1 class="display-1"> Formularz zgłoszenia Covid-19 </h1> 
+         <h3 class="display-4"> Formularz zgłoszenia Covid-19 </h3>
       </div>         
    </div>
 </div>
@@ -97,7 +99,7 @@
    <div class="row welcome text-center">
 
 		<div class="col-12">
-			<h1 class="display-4"> Wypełnij Poniższy Formularz</h1>
+			<h1 class="display-6"> Dane pacjenta: </h1>
 		</div>
    </div>
 
