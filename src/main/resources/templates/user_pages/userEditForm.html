@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="pl">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplikacja Sanepid</title>
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> -->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- IKONY FONTAWSOME -->
+    <script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"> -->
+
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script> -->
+
+
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+     -->
+
+    <!-- IKONY FONTAWSOME -->
+    <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous"> -->
+
+    <link rel="stylesheet" type="text/css" th:href="@{/style.css}"}>
+</head>
+<body>
+
+<!-- Nawigacja -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+    <div class="container-fluid">
+        <a class="navbar-brand"  th:href="@{/}">
+            <i class="fas fa-home"></i>
+            Aplikacja PSSE Gliwice
+        </a>
+
+        <button class="navbar-toggler" type="toggle" data-toggle="collapse" data-target="#navbarResponsive">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+
+                <li class="nav-item">
+                    <a class="nav-link"  th:href="@{/}">Strona&nbsp;Domowa  <i class="fas fa-home"></i>  </a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" th:href="@{/patient/all}" id="dropdownPatients" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Pacjent <i class="far fa-sticky-note"></i>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="dropdownPatients">
+                        <a class="dropdown-item"  th:href="@{/patient/new}">Dodaj pacjenta</a>
+                        <a class="dropdown-item"  th:href="@{/patient/all}">Wyświetl pacjentów</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link"  th:href="@{/export/excel}" download>Generuj Raport Excel  <i class="fas fa-file-excel"></i></i></a>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" th:href="@{/admin/users}" id="dropdownUsers" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Użytkownik <i class="far fa-list-item"></i>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="dropdownUsers">
+                        <a class="dropdown-item"  th:href="@{/admin/register}">Dodaj użytkownika</a>
+                        <a class="dropdown-item"  th:href="@{/admin/users}">Wyświetl użytkowników</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a id="logout" class="nav-link" th:href="@{/logout}">Wyloguj się  <i class="fas fa-sign-out-alt"></i>  </a>
+                </li>
+
+            </ul>
+        </div>
+
+    </div>
+</nav>
+
+
+<div class="container-fluid padding">
+    <div class="row welcome text-center">
+        <div class="col-12">
+            <br>
+            <h3 class="display-4">Edycja danych użytkownika</h3>
+            <br>
+        </div>
+    </div>
+</div>
+
+
+<div class="container-fluid padding">
+    <hr>
+</div>
+
+<div class="container-fluid padding">
+
+    <!-- POWITANIE -->
+    <div class="row welcome text-center">
+
+        <div class="col-12">
+            <br>
+            <h1 class="display-6">Dane użytkownika:</h1>
+            <br>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid padding">
+<!-- FORMULARZ -->
+    <form th:action="@{/admin/user/edited/{id}(id = ${userToBeEdited.userId})}" th:object="${userToBeEdited}" method="POST" id="form_primary">
+
+        <div class="row justify-content-center">
+
+            <div class="col-xs-5 col-md-5 col-lg-5">
+                <!-- IMIE -->
+                <div class="form-group">
+                    <label for="name">Imię</label>
+                    <input type="text" class="form-control" placeholder="Imię" id="name" th:field="${userToBeEdited.name}">
+                    <span th:if="${#fields.hasErrors('name')}"
+                          th:errors="${userToBeEdited.name}"></span>
+                </div>
+            </div>
+
+            <!-- NAZWISKO -->
+            <div class="col-xs-5 col-md-5 col-lg-5">
+                <div class="form-group">
+                    <label for="surname">Nazwisko</label>
+                    <input type="text" class="form-control" placeholder="Nazwisko" id="surname" th:field="${userToBeEdited.surname}">
+                    <span th:if="${#fields.hasErrors('surname')}"
+                          th:errors="${userToBeEdited.surname}"></span>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row justify-content-center">
+
+            <!-- LOGIN -->
+            <div class="col-xs-5 col-md-5 col-lg-4">
+                <div class="form-group">
+                    <label for="login">Login</label>
+                    <input type="text" class="form-control" placeholder="Login" id="login" th:field="${userToBeEdited.login}" readonly>
+                    <span class="text-info">Login użytkownika nie podlega edycji.</span>
+                    <span th:if="${#fields.hasErrors('login')}"
+                          th:errors="${userToBeEdited.login}"></span>
+                </div>
+            </div>
+
+            <!-- ENABLED -->
+            <div class="col-xs-2 col-md-2 col-lg-3">
+                <div class="form-group">
+                    <label for="enabled">Status</label>
+                    <select th:field="${userToBeEdited.enabled}" id="enabled" class="form-control">
+                        <option th:value="true">Aktywny</option>
+                        <option th:value="false">Zablokowany</option>
+                        <span th:if="${#fields.hasErrors('enabled')}"
+                              th:errors="${userToBeEdited.enabled}"></span>
+                    </select>
+                </div>
+            </div>
+
+            <!-- ROLE -->
+            <div class="col-xs-3 col-md-3 col-lg-3">
+                <div class="form-group">
+                    <label for="role">Rola</label>
+                    <select th:field="${userToBeEdited.role}" id="role" class="form-control">
+                        <option th:value="admin">Administrator</option>
+                        <option th:value="user" >Użytkownik</option>
+                    </select>
+                    <span th:if="${#fields.hasErrors('role')}"
+                          th:errors="${userToBeEdited.role}"></span>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row justify-content-center">
+
+            <div class="btn-group" role="group" aria-label="Basic example">
+
+
+                <div class="col-xs-6 col-sm-6 col-lg-6" style="padding-top: 1.99rem;">
+                    <a th:href="@{/admin/user/edit/password/{id}(id = ${userToBeEdited.userId})}" class="btn btn-outline-success">
+                        <span><i class="fas fa-unlock-alt"></i></span>
+                        <span>Zmień hasło</span>
+                    </a>
+                </div>
+
+                <div class="col-xs-4 col-sm-4 col-lg-3" style="padding-top: 1.99rem;">
+                    <a th:href="@{/admin/user/details/{id}(id = ${userToBeEdited.userId})}" class="btn btn-outline-warning">
+                        <span>Anuluj</span>
+                    </a>
+                </div>
+
+                <div class="col-xs-3 col-md-3 col-lg-3" style="padding-top: 1.99rem;">
+                    <div class="form-group" >
+                        <input type="submit" value="Zapisz" class="btn btn-outline-primary">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div>
+</body>
+</html>

@@ -42,12 +42,14 @@ public class User {
     @Length(min=3, message="Pole wymagane.")
     @Pattern(regexp = "(user|admin)", message = "Pole wymagane.")
     @Column(name = "role")
-    private String role = "user"; // TODO: field while adding new users to choose role: admin or user
+    private String role = "user";
 
     @Column(name = "enabled")
     private Boolean enabled = true;
 
-    @OneToMany(mappedBy = "creator")
+    @OneToMany( mappedBy = "creator",
+                cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH},
+                fetch = FetchType.LAZY)
     private List<Patient> patients;
 
     public User() {
@@ -59,6 +61,10 @@ public class User {
         this.login = login;
         this.password = password;
         this.role = role;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public Integer getUserId() {

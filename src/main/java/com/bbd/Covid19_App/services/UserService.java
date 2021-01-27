@@ -5,8 +5,12 @@ import com.bbd.Covid19_App.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.util.List;
+
 
 @Service
+@Transactional
 public class UserService {
 
     @Autowired
@@ -16,7 +20,7 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public Iterable<User> findAll() {
+    public List<User> findAll() {
         return userRepository.findAll();
     }
 
@@ -26,5 +30,13 @@ public class UserService {
 
     public User findByLogin(String login) {
         return userRepository.findByLogin(login);
+    }
+
+    public void deleteByUserId(Integer userId) {
+        userRepository.deleteByUserId(userId);
+    }
+
+    public List<User> searchForUsers(String name, String surname, String login, String role, Boolean enabled) {
+        return userRepository.findByNameAndSurnameAndLoginAndRoleAndEnabledOrderByUserIdAsc(name, surname, login, role, enabled);
     }
 }

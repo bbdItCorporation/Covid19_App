@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="pl">
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+
+       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+       <title>Aplikacja Sanepid</title>
+       <meta charset="utf-8">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+       <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+       <script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+        <link rel="stylesheet" type="text/css" th:href="@{/style.css}"}>
+        <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+        <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap4.min.js"></script>
+
+
+    </head>
+
+    <body>
+    <!-- Nawigacja -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+        <div class="container-fluid">
+            <a class="navbar-brand"  th:href="@{/}">
+                <i class="fas fa-home"></i>
+                Aplikacja PSSE Gliwice
+            </a>
+
+            <button class="navbar-toggler" type="toggle" data-toggle="collapse" data-target="#navbarResponsive">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+
+                    <li class="nav-item">
+                        <a class="nav-link"  th:href="@{/}">Strona&nbsp;Domowa  <i class="fas fa-home"></i>  </a>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" th:href="@{/patient/all}" id="dropdownPatients" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Pacjent <i class="far fa-sticky-note"></i>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownPatients">
+                            <a class="dropdown-item"  th:href="@{/patient/new}">Dodaj pacjenta</a>
+                            <a class="dropdown-item"  th:href="@{/patient/all}">Wyświetl pacjentów</a>
+                        </div>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link"  th:href="@{/export/excel}" download>Generuj Raport Excel  <i class="fas fa-file-excel"></i></i></a>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" th:href="@{/admin/users}" id="dropdownUsers" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Użytkownik <i class="far fa-list-item"></i>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownUsers">
+                            <a class="dropdown-item"  th:href="@{/admin/register}">Dodaj użytkownika</a>
+                            <a class="dropdown-item"  th:href="@{/admin/users}">Wyświetl użytkowników</a>
+                        </div>
+                    </li>
+
+                    <li class="nav-item">
+                        <a id="logout" class="nav-link" th:href="@{/logout}">Wyloguj się  <i class="fas fa-sign-out-alt"></i>  </a>
+                    </li>
+
+                </ul>
+            </div>
+
+        </div>
+    </nav>
+
+
+    <div class="container-fluid padding">
+       <div class="row welcome text-center">
+          <div class="col-12">
+              <br>
+              <h3 class="display-4"> Pacjenci </h3>
+              <br>
+              <hr>
+          </div>
+       </div>
+    </div>
+
+
+    <div class="container-fluid padding">
+        <!-- FORMULARZ WYSZUKIWANIA-->
+        <form th:action="@{/patient/all/search}"  th:object="${patientToSearch}" method="POST" id="form_primary">
+
+            <div class="form-group" style="padding-top: 1.5rem;">
+            </div>
+
+            <div class="row justify-content-center">
+
+                <div class="col-xs-4 col-md-4 col-lg-2">
+                    <!-- IMIE -->
+                    <div class="form-group">
+                        <label for="name">Imię</label>
+                        <input type="text" class="form-control" placeholder="Imię" id="name" th:field="${patientToSearch.name}">
+                        <span th:if="${#fields.hasErrors('name')}"
+                              th:errors="${patientToSearch.name}"></span>
+                    </div>
+                </div>
+
+                <!-- NAZWISKO -->
+                <div class="col-xs-4 col-md-4 col-lg-2">
+                    <div class="form-group">
+                        <label for="surname">Nazwisko</label>
+                        <input type="text" class="form-control" placeholder="Nazwisko" id="surname"  th:field="${patientToSearch.surname}">
+                        <span th:if="${#fields.hasErrors('surname')}"
+                              th:errors="${patientToSearch.surname}"></span>
+                    </div>
+                </div>
+
+                <!-- PLEC -->
+                <div class="col-xs-4 col-md-4 col-lg-2">
+                    <div class="form-group">
+                        <label for="gender">Płeć</label>
+                        <select th:field="${patientToSearch.gender}"  class="form-control" id="gender">
+                            <option th:value="null">-</option>
+                            <option th:value="K">Kobieta</option>
+                            <option th:value="M">Mężczyzna</option>
+                        </select>
+                        <span th:if="${#fields.hasErrors('gender')}"
+                              th:errors="${patientToSearch.gender}"></span>
+                    </div>
+                </div>
+
+                <!-- WIEK -->
+                <div class="col-xs-4 col-md-4 col-lg-2">
+                    <div class="form-group">
+                        <label for="ageFrom">Wiek (od)</label>
+                        <input type="text" th:field="${patientToSearch.ageFrom}" placeholder="Wiek" class="form-control" id="ageFrom">
+                        <span th:if="${#fields.hasErrors('ageFrom')}"
+                              th:errors="${patientToSearch.ageFrom}"></span>
+                    </div>
+                </div>
+
+                <!-- WIEK -->
+                <div class="col-xs-4 col-md-4 col-lg-2">
+                    <div class="form-group">
+                        <label for="ageTo">Wiek (do)</label>
+                        <input type="text" th:field="${patientToSearch.ageTo}" placeholder="Wiek" class="form-control" id="ageTo">
+                        <span th:if="${#fields.hasErrors('ageTo')}"
+                              th:errors="${patientToSearch.ageTo}"></span>
+                    </div>
+                </div>
+
+
+                <!-- Email -->
+                <div class="col-xs-4 col-md-4 col-lg-2">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" placeholder="Email" id="email" th:field="${patientToSearch.email}">
+                        <span th:if="${#fields.hasErrors('email')}"
+                              th:errors="${patientToSearch.email}"></span>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row justify-content-center">
+
+                <!-- Telefon -->
+                <div class="col-xs-4 col-md-4 col-lg-2">
+                    <div class="form-group">
+                        <label for="phoneNumber">Numer telefonu</label>
+                        <input type="text" class="form-control" placeholder="Numer" id="phoneNumber" th:field="${patientToSearch.phoneNumber}">
+                        <span th:if="${#fields.hasErrors('phoneNumber')}"
+                              th:errors="${patientToSearch.phoneNumber}"></span>
+                    </div>
+                </div>
+
+
+                <!-- DATA URODZENIA -->
+                <div class="col-xs-4 col-md-4 col-lg-2">
+                    <div class="form-group">
+                        <label for="birthDateFrom">Data Urodzenia (od)</label>
+                        <input type="date" id="birthDateFrom" class="form-control" placeholder="Data" th:field="${patientToSearch.birthDateFrom}" name="date">
+                        <span th:if="${#fields.hasErrors('birthDateFrom')}"
+                              th:errors="${patientToSearch.birthDateFrom}"></span>
+                    </div>
+                </div>
+
+                <!-- DATA URODZENIA -->
+                <div class="col-xs-4 col-md-4 col-lg-2">
+                    <div class="form-group">
+                        <label for="birthDateTo">Data Urodzenia (do)</label>
+                        <input type="date" id="birthDateTo" class="form-control" placeholder="Data" th:field="${patientToSearch.birthDateTo}" name="date">
+                        <span th:if="${#fields.hasErrors('birthDateTo')}"
+                              th:errors="${patientToSearch.birthDateTo}"></span>
+                    </div>
+                </div>
+
+                <!-- DATA TESTU DODATNIEGO -->
+                <div class="col-xs-4 col-md-4 col-lg-3">
+                    <div class="form-group">
+                        <label for="datePositiveFrom">Data uzyskania wyniku dodatniego (do)</label>
+                        <input type="date" id="datePositiveFrom" class="form-control" placeholder="Data" th:field="${patientToSearch.datePositiveFrom}" name="date">
+                        <span th:if="${#fields.hasErrors('datePositiveFrom')}"
+                              th:errors="${patientToSearch.datePositiveFrom}"></span>
+                    </div>
+                </div>
+
+                <!-- DATA TESTU DODATNIEGO -->
+                <div class="col-xs-4 col-md-4 col-lg-3">
+                    <div class="form-group">
+                        <label for="datePositiveTo">Data uzyskania wyniku dodatniego (od)</label>
+                        <input type="date" id="datePositiveTo" class="form-control" placeholder="Data" th:field="${patientToSearch.datePositiveTo}" name="date">
+                        <span th:if="${#fields.hasErrors('datePositiveTo')}"
+                              th:errors="${patientToSearch.datePositiveTo}"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+                <!-- DATA POZYSKANIA INFORMACJI -->
+                <div class="col-xs-4 col-md-4 col-lg-3">
+                    <div class="form-group">
+                        <label for="dateInformationFrom">Data pozyskania informacji przez PSSE (od)</label>
+                        <input type="date" id="dateInformationFrom" class="form-control" placeholder="Data" th:field="${patientToSearch.dateInformationFrom}" name="date">
+                        <span th:if="${#fields.hasErrors('dateInformationFrom')}"
+                              th:errors="${patientToSearch.dateInformationFrom}"></span>
+                    </div>
+                </div>
+
+                <!-- DATA POZYSKANIA INFORMACJI -->
+                <div class="col-xs-4 col-md-4 col-lg-3">
+                    <div class="form-group">
+                        <label for="dateInformationTo">Data pozyskania informacji przez PSSE (do)</label>
+                        <input type="date" id="dateInformationTo" class="form-control" placeholder="Data" th:field="${patientToSearch.dateInformationTo}" name="date">
+                        <span th:if="${#fields.hasErrors('dateInformationTo')}"
+                              th:errors="${patientToSearch.dateInformationTo}"></span>
+                    </div>
+                </div>
+
+                <!-- Źródło  -->
+                <div class="col-xs-4 col-md-4 col-lg-3">
+                    <div class="form-group">
+                        <label for="infectionSource">Źródło zakażenia</label>
+                        <input type="text" class="form-control" placeholder="Źródło" id="infectionSource" th:field="${patientToSearch.infectionSource}">
+                        <span th:if="${#fields.hasErrors('infectionSource')}"
+                              th:errors="${patientToSearch.infectionSource}"></span>
+                    </div>
+                </div>
+            </div>
+
+            <hr>
+            <div class="row justify-content-center">
+                <h3 class="display-5"><u>Adres zamieszkania pacjenta</u></h3>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-xs-4 col-md-4 col-lg-2">
+                    <div class="form-group">
+                        <label for="residenceStreet">Ulica </label>
+                        <input type="text" id="residenceStreet" class="form-control" placeholder="Ulica" th:field="${patientToSearch.residenceStreet}" name="residenceStreet">
+                        <span th:if="${#fields.hasErrors('residenceStreet')}"
+                              th:errors="${patientToSearch.residenceStreet}"></span>
+                    </div>
+                </div>
+
+                <!-- Miejscowość zamieszkania  -->
+                <div class="col-xs-6 col-md-4 col-lg-2">
+                    <div class="form-group">
+                        <label for="residenceCity">Miejscowość </label>
+                        <input type="text" class="form-control" placeholder="Miejscowość" id="residenceCity"  th:field="${patientToSearch.residenceCity}">
+                        <span th:if="${#fields.hasErrors('residenceCity')}"
+                              th:errors="${patientToSearch.residenceCity}"></span>
+                    </div>
+                </div>
+
+                <div class="col-xs-4 col-md-4 col-lg-3">
+                    <div class="form-group">
+                        <label for="residenceCityCode">Kod pocztowy  </label>
+                        <input type="text" class="form-control" placeholder="_ _-_ _ _" id="residenceCityCode" th:field="${patientToSearch.residenceCityCode}">
+                        <span th:if="${#fields.hasErrors('residenceCityCode')}"
+                              th:errors="${patientToSearch.residenceCityCode}"></span>
+                    </div>
+                </div>
+
+                <!-- Wojewodzctwo zamieszkania  -->
+                <div class="col-xs-6 col-md-4 col-lg-2">
+                    <div class="form-group">
+                        <label for="residenceDistrict">Województwo </label>
+                        <select th:field="${patientToSearch.residenceDistrict}" id="residenceDistrict" class="form-control">
+                            <option th:value="null">-</option>
+                            <option th:value="Dolnośląskie">Dolnośląskie</option>
+                            <option th:value="Kujawsko-Pomorskie">Kujawsko-Pomorskie</option>
+                            <option th:value="Lubelskie">Lubelskie</option>
+                            <option th:value="Lubuskie">Lubuskie</option>
+                            <option th:value="Łódzkie">Łódzkie</option>
+                            <option th:value="Małopolskie">Małopolskie</option>
+                            <option th:value="Mazowieckie">Mazowieckie</option>
+                            <option th:value="Opolskie">Opolskie</option>
+                            <option th:value="Podkarpackie">Podkarpackie</option>
+                            <option th:value="Podlaskie">Podlaskie</option>
+                            <option th:value="Pomorskie">Pomorskie</option>
+                            <option th:value="Śląskie">Śląskie</option>
+                            <option th:value="Świętokrzyskie">Świętokrzyskie</option>
+                            <option th:value="Warmińsko-Mazurski">Warmińsko-Mazurskie</option>
+                            <option th:value="Wielkopolskie">Wielkopolskie</option>
+                            <option th:value="Zachodniopomorskie">Zachodniopomorskie</option>
+                        </select>
+                        <span th:if="${#fields.hasErrors('residenceDistrict')}"
+                              th:errors="${patientToSearch.residenceDistrict}"></span>
+                    </div>
+                </div>
+
+            </div>
+
+            <hr>
+            <div class="row justify-content-center">
+                <h3 class="display-5"><u>Adres pobytu pacjenta</u></h3>
+            </div>
+
+
+            <div class="row justify-content-center">
+
+                <div class="col-xs-4 col-md-4 col-lg-2">
+                    <div class="form-group">
+                        <label for="stayStreet">Ulica </label>
+                        <input type="text" id="stayStreet" class="form-control" placeholder="Ulica" th:field="${patientToSearch.stayStreet}" name="stayStreet">
+                        <span th:if="${#fields.hasErrors('stayStreet')}"
+                              th:errors="${patientToSearch.stayStreet}"></span>
+                    </div>
+                </div>
+
+                <!-- Miejscowość pobytu  -->
+                <div class="col-xs-6 col-md-4 col-lg-2">
+                    <div class="form-group">
+                        <label for="stayCity">Miejscowość </label>
+                        <input type="text" class="form-control" placeholder="Miejscowość"  id="stayCity" th:field="${patientToSearch.stayCity}">
+                        <span th:if="${#fields.hasErrors('stayCity')}"
+                              th:errors="${patientToSearch.stayCity}"></span>
+                    </div>
+                </div>
+
+                <div class="col-xs-4 col-md-4 col-lg-3">
+                    <div class="form-group">
+                        <label for="stayCityCode">Kod pocztowy </label>
+                        <input type="text" class="form-control" placeholder="_ _-_ _ _" id="stayCityCode" th:field="${patientToSearch.stayCityCode}">
+                        <span th:if="${#fields.hasErrors('stayCityCode')}"
+                              th:errors="${patientToSearch.stayCityCode}"></span>
+                    </div>
+                </div>
+
+                <!-- Wojewodzctwo zamieszkania  -->
+                <div class="col-xs-6 col-md-4 col-lg-2">
+                    <div class="form-group">
+                        <label for="stayDistrict">Województwo </label>
+                        <select th:field="${patientToSearch.stayDistrict}" id="stayDistrict" class="form-control">
+                            <option th:value="null">-</option>
+                            <option th:value="Dolnośląskie">Dolnośląskie</option>
+                            <option th:value="Kujawsko-Pomorskie">Kujawsko-Pomorskie</option>
+                            <option th:value="Lubelskie">Lubelskie</option>
+                            <option th:value="Lubuskie">Lubuskie</option>
+                            <option th:value="Łódzkie">Łódzkie</option>
+                            <option th:value="Małopolskie">Małopolskie</option>
+                            <option th:value="Mazowieckie">Mazowieckie</option>
+                            <option th:value="Opolskie">Opolskie</option>
+                            <option th:value="Podkarpackie">Podkarpackie</option>
+                            <option th:value="Podlaskie">Podlaskie</option>
+                            <option th:value="Pomorskie">Pomorskie</option>
+                            <option th:value="Śląskie">Śląskie</option>
+                            <option th:value="Świętokrzyskie">Świętokrzyskie</option>
+                            <option th:value="Warmińsko-Mazurskie">Warmińsko-Mazurskie</option>
+                            <option th:value="Wielkopolskie">Wielkopolskie</option>
+                            <option th:value="Zachodniopomorskie">Zachodniopomorskie</option>
+                        </select>
+                        <span th:if="${#fields.hasErrors('stayDistrict')}"
+                              th:errors="${patientToSearch.stayDistrict}"></span>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="row justify-content-center">
+                <!-- Laboratorium  -->
+                <div class="col-xs-6 col-md-4 col-lg-2">
+                    <div class="form-group">
+                        <label for="labName">Laboratorium badające</label>
+                        <input type="text" class="form-control" placeholder="Nazwa"  id = "labName" th:field="${patientToSearch.labName}">
+                        <span th:if="${#fields.hasErrors('labName')}"
+                              th:errors="${patientToSearch.labName}"></span>
+                    </div>
+                </div>
+
+                <!-- Hospitalizacja -->
+                <div class="col-xs-6 col-md-4 col-lg-1">
+                    <div class="form-group">
+                        <label for="hospitalized">Hospitalizacja</label>
+                        <select th:field="${patientToSearch.hospitalized}" id="hospitalized" class="form-control">
+                            <option th:value="null">-</option>
+                            <option th:value="false">Nie</option>
+                            <option th:value="true">Tak</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Szpital  -->
+                <div class="col-xs-6 col-md-4 col-lg-2">
+                    <div class="form-group">
+                        <label for="hospitalName">Nazwa szpitala</label>
+                        <input type="text" class="form-control" placeholder="Nazwa"  id="hospitalName" th:field="${patientToSearch.hospitalName}">
+                        <span th:if="${#fields.hasErrors('hospitalName')}"
+                              th:errors="${patientToSearch.hospitalName}"></span>
+                    </div>
+                </div>
+
+                <!-- Kwarantanna -->
+                <div class="col-xs-6 col-md-4 col-lg-1">
+                    <div class="form-group">
+                        <label for="inQuarantine">Kwarantanna</label>
+                        <select th:field="${patientToSearch.inQuarantine}" id="inQuarantine" class="form-control">
+                            <option th:value="null">-</option>
+                            <option th:value="false">Nie</option>
+                            <option th:value="true">Tak</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Nadzór -->
+                <div class="col-xs-6 col-md-4 col-lg-2">
+                    <div class="form-group">
+                        <label for="supervision">Nadzór</label>
+                        <select th:field="${patientToSearch.supervision}" id="supervision" class="form-control">
+                            <option th:value="null">-</option>
+                            <option th:value="false">Nie</option>
+                            <option th:value="true">Tak</option>
+                        </select>
+                    </div>
+                </div>
+
+
+
+                <!-- Login usera -->
+                <div class="col-xs-6 col-md-4 col-lg-3">
+                    <div class="form-group">
+                        <label for="creatorLogin">Ostatnia modyfikacja przez (login)</label>
+                        <input type="text" class="form-control" placeholder="Login"  id="creatorLogin" th:field="${patientToSearch.creatorLogin}">
+                        <span th:if="${#fields.hasErrors('creatorLogin')}"
+                              th:errors="${patientToSearch.creatorLogin}"></span>
+                    </div>
+                </div>
+
+                <div class="col-xs-1 col-md-1 col-lg-1">
+                    <div class="form-group" style="padding-top: 1.99rem;">
+                        <button type="submit"  class="btn btn-outline-primary">Szukaj</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group" style="padding-top: 1.5rem;">
+            </div>
+
+        </form>
+
+    </div>
+
+
+    <div class="container-fluid padding">
+        <table id="usersTable" class="table table-filter">
+
+            <thead>
+                <tr>
+                    <th>Imie</th>
+                    <th>Nazwisko</th>
+                    <th>Płeć</th>
+                    <th>Wiek</th>
+                    <th>Numer telefonu</th>
+                    <th>Kwarantanna</th>
+                    <th>Nadzór</th>
+                    <th>Hospitalizacja</th>
+                    <th></th>
+                </tr>
+
+
+            </thead>
+            <tbody>
+                <tr th:each="patient: ${patients}">
+                    <td th:text="${patient.name}"></td>
+                    <td th:text="${patient.surname}"></td>
+                    <div th:switch="${patient.gender}">
+                        <td th:case="K">Kobieta</td>
+                        <td th:case="M">Mężczyzna</td>
+                    </div>
+                    <td th:text="${patient.age}"></td>
+                    <td th:text="${patient.phoneNumber}"></td>
+                    <div th:switch="${patient.inQuarantine}">
+                        <td th:case="true">Tak</td>
+                        <td th:case="false">Nie</td>
+                    </div>
+                    <div th:switch="${patient.supervision}">
+                        <td th:case="true">Tak</td>
+                        <td th:case="false">Nie</td>
+                    </div>
+                    <div th:switch="${patient.hospitalized}">
+                        <td th:case="true">Tak</td>
+                        <td th:case="false">Nie</td>
+                    </div>
+
+                    <td style="text-align: center">
+                        <a th:href="@{/patient/details/{id}(id = ${patient.patientId})}" class="btn btn-outline-info">
+                            <span><i class="fas fa-info-circle"></i></span>
+                            <span>Szczegóły</span>
+                        </a>
+
+                        <a th:href="@{/patient/edit/{id}(id = ${patient.patientId})}" class="btn btn-outline-warning">
+                            <span><i class="fas fa-edit"></i></span>
+                            <span>Edytuj</span>
+                        </a>
+
+                        <a th:href="@{/patient/export/word/{id}(id = ${patient.patientId})}" class="btn btn-outline-primary">
+                            <span><i class="fas fa-file-word"></i></i></span>
+                            <span>Generuj Word</span>
+                        </a>
+
+                        <button type="button" class="btn btn-outline-danger" data-toggle="modal" th:attr="data-target='#askIfSureToDelete'+${patient.patientId}"><i class="fas fa-trash-alt"></i> Usuń</button>
+
+                        <!-- The Modal -->
+                        <div class="modal fade" th:attr="id='askIfSureToDelete'+${patient.patientId}" id="askIfSureToDelete">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+
+                                    <!-- Modal Header -->
+                                    <div class="modal-header">
+                                        <h6 class="modal-title">Czy jesteś pewny, że chcesz usunąć pacjenta?</h6>
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    </div>
+
+                                    <!-- Modal footer -->
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-outline-warning" data-dismiss="modal">Anuluj</button>
+                                        <a  th:href="@{/patient/delete/{id}(id = ${patient.patientId})}"><button type="button" class="btn btn-outline-danger">Potwierdzam</button></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </td>
+
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+    </body>
+</html>

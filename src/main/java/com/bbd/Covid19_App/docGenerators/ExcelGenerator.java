@@ -31,7 +31,9 @@ public class ExcelGenerator {
         this.patients = patients;
     }
 
-    private void headersSettings() {
+    private void createExcelDocument() {
+
+        sheet = workbook.createSheet("Arkusz 1");
 
         Font headersFont = workbook.createFont();
         headersFont.setBold(true);
@@ -60,14 +62,8 @@ public class ExcelGenerator {
             headerCells.setCellValue(columns[i]);
             headerCells.setCellStyle(headerCellsStyle);
         }
-    }
 
-    private void setUpWorkbook() {
-        sheet = workbook.createSheet("Arkusz 1");
-        headersSettings();
-    }
 
-    private void fillSheetWithData() {
         Font textFont = workbook.createFont();
         textFont.setBold(false);
         textFont.setFontName("Times");
@@ -195,8 +191,7 @@ public class ExcelGenerator {
     }
 
     public void export(HttpServletResponse response) throws IOException {
-        setUpWorkbook();
-        fillSheetWithData();
+        createExcelDocument();
 
         ServletOutputStream outputStream = response.getOutputStream();
         workbook.write(outputStream);

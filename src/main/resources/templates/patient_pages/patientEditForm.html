@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="pl">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplikacja Sanepid</title>
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- IKONY FONTAWSOME -->
+    <script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+    <link rel="stylesheet" type="text/css" th:href="@{/style.css}"}>
+</head>
+<body>
+
+<!-- Nawigacja -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+    <div class="container-fluid">
+        <a class="navbar-brand"  th:href="@{/}">
+            <i class="fas fa-home"></i>
+            Aplikacja PSSE Gliwice
+        </a>
+
+        <button class="navbar-toggler" type="toggle" data-toggle="collapse" data-target="#navbarResponsive">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+
+                <li class="nav-item">
+                    <a class="nav-link"  th:href="@{/}">Strona&nbsp;Domowa  <i class="fas fa-home"></i>  </a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" th:href="@{/patient/all}" id="dropdownPatients" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Pacjent <i class="far fa-sticky-note"></i>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="dropdownPatients">
+                        <a class="dropdown-item"  th:href="@{/patient/new}">Dodaj pacjenta</a>
+                        <a class="dropdown-item"  th:href="@{/patient/all}">Wyświetl pacjentów</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link"  th:href="@{/export/excel}" download>Generuj Raport Excel  <i class="fas fa-file-excel"></i></i></a>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" th:href="@{/admin/users}" id="dropdownUsers" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Użytkownik <i class="far fa-list-item"></i>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="dropdownUsers">
+                        <a class="dropdown-item"  th:href="@{/admin/register}">Dodaj użytkownika</a>
+                        <a class="dropdown-item"  th:href="@{/admin/users}">Wyświetl użytkowników</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a id="logout" class="nav-link" th:href="@{/logout}">Wyloguj się  <i class="fas fa-sign-out-alt"></i>  </a>
+                </li>
+
+            </ul>
+        </div>
+
+    </div>
+</nav>
+
+
+<div class="container-fluid padding">
+    <div class="row welcome text-center">
+        <div class="col-12">
+            <br>
+            <h3 class="display-4">Edycja danych pacjenta</h3>
+            <br>
+        </div>
+    </div>
+</div>
+
+
+<div class="container-fluid padding">
+    <hr>
+</div>
+
+<div class="container-fluid padding">
+
+    <!-- POWITANIE -->
+    <div class="row welcome text-center">
+
+        <div class="col-12">
+            <br>
+            <h1 class="display-6">Dane pacjenta:</h1>
+            <br>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid padding">
+<!-- FORMULARZ -->
+    <form th:action="@{/patient/edited/{id}(id = ${patientToBeEdited.patientId})}" th:object="${patientToBeEdited}" method="POST" id="form_primary">
+
+        <div class="row justify-content-center">
+
+            <div class="col-xs-4 col-md-4 col-lg-4">
+                <!-- IMIE -->
+                <div class="form-group">
+                    <label for="name">Imię</label>
+                    <input type="text" class="form-control" placeholder="Imię" id="name" th:field="${patientToBeEdited.name}">
+                    <span th:if="${#fields.hasErrors('name')}"
+                          th:errors="${patientToBeEdited.name}"></span>
+                </div>
+            </div>
+
+            <!-- NAZWISKO -->
+            <div class="col-xs-4 col-md-4 col-lg-4">
+                <div class="form-group">
+                    <label for="surname">Nazwisko</label>
+                    <input type="text" class="form-control" placeholder="Nazwisko" id="surname"  th:field="${patientToBeEdited.surname}">
+                    <span th:if="${#fields.hasErrors('surname')}"
+                          th:errors="${patientToBeEdited.surname}"></span>
+                </div>
+            </div>
+
+            <!-- PLEC -->
+            <div class="col-xs-4 col-md-4 col-lg-4">
+                <div class="form-group">
+                    <label for="gender">Płeć</label>
+                    <select th:field="${patientToBeEdited.gender}"  class="form-control" id="gender">
+                        <option th:value="ph">Proszę wybrać...</option>
+                        <option th:value="K">Kobieta</option>
+                        <option th:value="M">Mężczyzna</option>
+                    </select>
+                    <span th:if="${#fields.hasErrors('gender')}"
+                          th:errors="${patientToBeEdited.gender}"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <!-- DATA URODZENIA -->
+            <div class="col-xs-4 col-md-4 col-lg-4">
+                <div class="form-group">
+                    <label for="birthDate">Data Urodzenia</label>
+                    <input type="date" id="birthDate" class="form-control" placeholder="Data" th:field="${patientToBeEdited.birthDate}" name="date">
+                    <span th:if="${#fields.hasErrors('birthDate')}"
+                          th:errors="${patientToBeEdited.birthDate}"></span>
+                </div>
+            </div>
+
+
+
+            <!-- Email -->
+            <div class="col-xs-4 col-md-4 col-lg-4">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" placeholder="Email" id="email" th:field="${patientToBeEdited.email}">
+                    <span th:if="${#fields.hasErrors('email')}"
+                          th:errors="${patientToBeEdited.email}"></span>
+                </div>
+            </div>
+
+            <!-- Telefon -->
+            <div class="col-xs-4 col-md-4 col-lg-4">
+                <div class="form-group">
+                    <label for="phoneNumber">Numer telefonu</label>
+                    <input type="text" class="form-control" placeholder="Numer" id="phoneNumber" th:field="${patientToBeEdited.phoneNumber}">
+                    <span th:if="${#fields.hasErrors('phoneNumber')}"
+                          th:errors="${patientToBeEdited.phoneNumber}"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+
+            <!-- DATA TESTU DODATNIEGO -->
+            <div class="col-xs-4 col-md-4 col-lg-4">
+                <div class="form-group">
+                    <label for="datePositive">Data uzyskania wyniku dodatniego</label>
+                    <input type="date" id="datePositive" class="form-control" placeholder="Data" th:field="${patientToBeEdited.datePositive}" name="date">
+                    <span th:if="${#fields.hasErrors('datePositive')}"
+                          th:errors="${patientToBeEdited.datePositive}"></span>
+                </div>
+            </div>
+
+            <!-- DATA POZYSKANIA INFORMACJI -->
+            <div class="col-xs-4 col-md-4 col-lg-4">
+                <div class="form-group">
+                    <label for="dateInformation">Data pozyskania informacji przez PSSE</label>
+                    <input type="date" id="dateInformation" class="form-control" placeholder="Data" th:field="${patientToBeEdited.dateInformation}" name="date">
+                    <span th:if="${#fields.hasErrors('dateInformation')}"
+                          th:errors="${patientToBeEdited.dateInformation}"></span>
+                </div>
+            </div>
+
+            <!-- Źródło  -->
+            <div class="col-xs-4 col-md-4 col-lg-4">
+                <div class="form-group">
+                    <label for="infectionSource">Źródło zakażenia</label>
+                    <input type="text" class="form-control" placeholder="Źródło" id="infectionSource" th:field="${patientToBeEdited.infectionSource}">
+                    <span th:if="${#fields.hasErrors('infectionSource')}"
+                          th:errors="${patientToBeEdited.infectionSource}"></span>
+                </div>
+            </div>
+
+        </div>
+
+        <hr>
+
+        <div class="row justify-content-center">
+            <h3 class="display-5"><u>Adres zamieszkania pacjenta</u></h3>
+        </div>
+
+        <div class="row justify-content-center">
+
+            <div class="col-xs-4 col-md-4 col-lg-2">
+                <div class="form-group">
+                    <label for="residenceStreet">Ulica</label>
+                    <input type="text" id="residenceStreet" class="form-control" placeholder="Ulica" th:field="${patientToBeEdited.residenceStreet}" name="residenceStreet">
+                    <span th:if="${#fields.hasErrors('residenceStreet')}"
+                          th:errors="${patientToBeEdited.residenceStreet}"></span>
+                </div>
+            </div>
+
+
+            <div class="col-xs-4 col-md-4 col-lg-2">
+                <div class="form-group">
+                    <label for="residenceApartmentNumber">Numer domu/mieszkania</label>
+                    <input type="text" id="residenceApartmentNumber" class="form-control" placeholder="Numer" th:field="${patientToBeEdited.residenceApartmentNumber}" name="residenceApartmentNumber">
+                    <span th:if="${#fields.hasErrors('residenceApartmentNumber')}"
+                          th:errors="${patientToBeEdited.residenceApartmentNumber}"></span>
+                </div>
+            </div>
+
+            <!-- Miejscowość zamieszkania  -->
+            <div class="col-xs-6 col-md-4 col-lg-3">
+                <div class="form-group">
+                    <label for="residenceCity">Miejscowość</label>
+                    <input type="text" class="form-control" placeholder="Miejscowość" id="residenceCity"  th:field="${patientToBeEdited.residenceCity}">
+                    <span th:if="${#fields.hasErrors('residenceCity')}"
+                          th:errors="${patientToBeEdited.residenceCity}"></span>
+                </div>
+            </div>
+
+            <div class="col-xs-4 col-md-4 col-lg-2">
+                <div class="form-group">
+                    <label for="residenceCityCode">Kod pocztowy</label>
+                    <input type="text" class="form-control" placeholder="_ _-_ _ _" id="residenceCityCode" th:field="${patientToBeEdited.residenceCityCode}">
+                    <span th:if="${#fields.hasErrors('residenceCityCode')}"
+                          th:errors="${patientToBeEdited.residenceCityCode}"></span>
+                </div>
+            </div>
+
+
+            <!-- Wojewodzctwo zamieszkania  -->
+            <div class="col-xs-6 col-md-4 col-lg-3">
+                <div class="form-group">
+                    <label for="residenceDistrict">Województwo</label>
+                    <select th:field="${patientToBeEdited.residenceDistrict}" id="residenceDistrict" class="form-control">
+                        <option th:value="ph">Proszę wybrać...</option>
+                        <option th:value="Dolnośląskie">Dolnośląskie</option>
+                        <option th:value="Kujawsko-Pomorskie">Kujawsko-Pomorskie</option>
+                        <option th:value="Lubelskie">Lubelskie</option>
+                        <option th:value="Lubuskie">Lubuskie</option>
+                        <option th:value="Łódzkie">Łódzkie</option>
+                        <option th:value="Małopolskie">Małopolskie</option>
+                        <option th:value="Mazowieckie">Mazowieckie</option>
+                        <option th:value="Opolskie">Opolskie</option>
+                        <option th:value="Podkarpackie">Podkarpackie</option>
+                        <option th:value="Podlaskie">Podlaskie</option>
+                        <option th:value="Pomorskie">Pomorskie</option>
+                        <option th:value="Śląskie">Śląskie</option>
+                        <option th:value="Świętokrzyskie">Świętokrzyskie</option>
+                        <option th:value="Warmińsko-Mazurski">Warmińsko-Mazurskie</option>
+                        <option th:value="Wielkopolskie">Wielkopolskie</option>
+                        <option th:value="Zachodniopomorskie">Zachodniopomorskie</option>
+                    </select>
+                    <span th:if="${#fields.hasErrors('residenceDistrict')}"
+                          th:errors="${patientToBeEdited.residenceDistrict}"></span>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="row justify-content-center">
+            <h3 class="display-5"><u>Adres pobytu pacjenta</u></h3>
+        </div>
+
+        <div class="row justify-content-center">
+
+            <div class="col-xs-4 col-md-4 col-lg-2">
+                <div class="form-group">
+                    <label for="stayStreet">Ulica</label>
+                    <input type="text" id="stayStreet" class="form-control" placeholder="Ulica" th:field="${patientToBeEdited.stayStreet}" name="stayStreet">
+                    <span th:if="${#fields.hasErrors('stayStreet')}"
+                          th:errors="${patientToBeEdited.stayStreet}"></span>
+                </div>
+            </div>
+
+
+            <div class="col-xs-4 col-md-4 col-lg-2">
+                <div class="form-group">
+                    <label for="stayApartmentNumber">Numer domu/mieszkania</label>
+                    <input type="text" id="stayApartmentNumber" class="form-control" placeholder="Numer" th:field="${patientToBeEdited.stayApartmentNumber}" name="stayApartmentNumber">
+                    <span th:if="${#fields.hasErrors('stayApartmentNumber')}"
+                          th:errors="${patientToBeEdited.stayApartmentNumber}"></span>
+                </div>
+            </div>
+
+            <!-- Miejscowość pobytu  -->
+            <div class="col-xs-6 col-md-4 col-lg-3">
+                <div class="form-group">
+                    <label for="stayCity">Miejscowość</label>
+                    <input type="text" class="form-control" placeholder="Miejscowość"  id="stayCity" th:field="${patientToBeEdited.stayCity}">
+                    <span th:if="${#fields.hasErrors('stayCity')}"
+                          th:errors="${patientToBeEdited.stayCity}"></span>
+                </div>
+            </div>
+
+            <div class="col-xs-4 col-md-4 col-lg-2">
+                <div class="form-group">
+                    <label for="stayCityCode">Kod pocztowy</label>
+                    <input type="text" class="form-control" placeholder="_ _-_ _ _" id="stayCityCode" th:field="${patientToBeEdited.stayCityCode}">
+                    <span th:if="${#fields.hasErrors('stayCityCode')}"
+                          th:errors="${patientToBeEdited.stayCityCode}"></span>
+                </div>
+            </div>
+
+            <!-- Wojewodzctwo zamieszkania  -->
+            <div class="col-xs-6 col-md-4 col-lg-3">
+                <div class="form-group">
+                    <label for="stayDistrict">Województwo</label>
+                    <select th:field="${patientToBeEdited.stayDistrict}" id="stayDistrict" class="form-control">
+                        <option th:value="ph">Proszę wybrać...</option>
+                        <option th:value="Dolnośląskie">Dolnośląskie</option>
+                        <option th:value="Kujawsko-Pomorskie">Kujawsko-Pomorskie</option>
+                        <option th:value="Lubelskie">Lubelskie</option>
+                        <option th:value="Lubuskie">Lubuskie</option>
+                        <option th:value="Łódzkie">Łódzkie</option>
+                        <option th:value="Małopolskie">Małopolskie</option>
+                        <option th:value="Mazowieckie">Mazowieckie</option>
+                        <option th:value="Opolskie">Opolskie</option>
+                        <option th:value="Podkarpackie">Podkarpackie</option>
+                        <option th:value="Podlaskie">Podlaskie</option>
+                        <option th:value="Pomorskie">Pomorskie</option>
+                        <option th:value="Śląskie">Śląskie</option>
+                        <option th:value="Świętokrzyskie">Świętokrzyskie</option>
+                        <option th:value="Warmińsko-Mazurskie">Warmińsko-Mazurskie</option>
+                        <option th:value="Wielkopolskie">Wielkopolskie</option>
+                        <option th:value="Zachodniopomorskie">Zachodniopomorskie</option>
+                    </select>
+                    <span th:if="${#fields.hasErrors('stayDistrict')}"
+                          th:errors="${patientToBeEdited.stayDistrict}"></span>
+                </div>
+            </div>
+
+        </div>
+        <hr>
+        <div class="row justify-content-center">
+            <!-- Laboratorium  -->
+            <div class="col-xs-6 col-md-4 col-lg-3">
+                <div class="form-group">
+                    <label for="labName">Laboratorium badające</label>
+                    <input type="text" class="form-control" placeholder="Nazwa"  id = "labName" th:field="${patientToBeEdited.labName}">
+                    <span th:if="${#fields.hasErrors('labName')}"
+                          th:errors="${patientToBeEdited.labName}"></span>
+                </div>
+            </div>
+
+
+            <!-- Hospitalizacja -->
+            <div class="col-xs-6 col-md-4 col-lg-2">
+                <div class="form-group">
+                    <label for="hospitalized">Hospitalizacja</label>
+                    <select th:field="${patientToBeEdited.hospitalized}" id="hospitalized" class="form-control">
+                        <option th:value="false">Nie</option>
+                        <option th:value="true">Tak</option>
+                    </select>
+                </div>
+            </div>
+
+
+            <!-- Szpital  -->
+            <div class="col-xs-6 col-md-4 col-lg-3">
+                <div class="form-group">
+                    <label for="hospitalName">Nazwa szpitala</label>
+                    <input type="text" class="form-control" placeholder="Nazwa"  id="hospitalName" th:field="${patientToBeEdited.hospitalName}">
+                    <span th:if="${#fields.hasErrors('hospitalName')}"
+                          th:errors="${patientToBeEdited.hospitalName}"></span>
+                </div>
+            </div>
+
+
+
+
+            <!-- Kwarantanna -->
+            <div class="col-xs-6 col-md-4 col-lg-2">
+                <div class="form-group">
+                    <label for="inQuarantine">Kwarantanna</label>
+                    <select th:field="${patientToBeEdited.inQuarantine}" id="inQuarantine" class="form-control">
+                        <option th:value="false">Nie</option>
+                        <option th:value="true">Tak</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Nadzór -->
+            <div class="col-xs-6 col-md-4 col-lg-2">
+                <div class="form-group">
+                    <label for="supervision">Nadzór</label>
+                    <select th:field="${patientToBeEdited.supervision}" id="supervision" class="form-control">
+                        <option th:value="false">Nie</option>
+                        <option th:value="true">Tak</option>
+                    </select>
+                </div>
+            </div>
+
+        </div>
+        
+        <div class="row justify-content-center">
+
+            <div class="btn-group" role="group" aria-label="Basic example">
+
+                <div class="col-xs-6 col-sm-6 col-lg-6" style="padding-top: 1.99rem;">
+                    <a th:href="@{/patient/details/{id}(id = ${patientToBeEdited.patientId})}" class="btn btn-outline-warning">
+                        <span>Anuluj</span>
+                    </a>
+                </div>
+
+                <div class="col-xs-6 col-md-6 col-lg-6" style="padding-top: 1.99rem;">
+                    <div class="form-group" >
+                        <input type="submit" value="Zapisz" class="btn btn-outline-primary">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div>
+</body>
+</html>

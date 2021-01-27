@@ -8,7 +8,6 @@
     <meta charset="utf-8">
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> -->
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -16,17 +15,6 @@
     <script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
 
 
-    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"> -->
-
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script> -->
-
-
-    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-     -->
     <link rel="stylesheet" type="text/css" th:href="@{/style.css}"}>
 </head>
 <body>
@@ -81,16 +69,28 @@
     </div>
 </nav>
 
-
 <div class="container-fluid padding">
-    <div class="row welcome text-center">
-        <div class="col-12">
-            <h1 class="display-2"> Błąd 403 </h1>
-            <h4 class="display-4"> Niestety nie posiadasz uprawnień do tej podstrony serwisu. </h4>
-            <h6 class="display-6"> W celu uzyskania więcej informacji lub nadania odpowiednich praw, proszę skontaktuj się z administratorem.  </h6>
-        </div>
-    </div>
-</div>
+    <form th:action="@{/admin/users"  th:object="${userCannotBeDeleted}" method="GET" id="form_primary">
+        <div class="row welcome text-center">
+            <div class="col-12">
+                <br><br>
+                <h3 class="display-5 text-danger"><strong>Użytkownik nie może zostać usunięty.</strong></h3>
+                <br>
+                <h5 class="display-5">Próbujesz usunąć aktualnie zalogowanego użytkownika.</h5>
+            </div>
 
+
+            <div class="col-12" style="padding-top: 1.99rem;">
+                <div class="form-group" >
+                    <input type="submit" value="Zrozumiałem/-am" class="btn btn-outline-primary">
+                </div>
+            </div>
+
+        </div>
+    </form>
+    </div>
+
+</div>
 </body>
 </html>
+

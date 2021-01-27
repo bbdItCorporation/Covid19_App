@@ -8,7 +8,6 @@
     <meta charset="utf-8">
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> -->
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -17,78 +16,76 @@
     <script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
 
 
-    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"> -->
-
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script> -->
-
-
-    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-     -->
-
-    <!-- IKONY FONTAWSOME -->
-    <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous"> -->
-
     <link rel="stylesheet" type="text/css" th:href="@{/style.css}"}>
 </head>
-<body>
 
+
+<body>
 <!-- Nawigacja -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="index.html">
+	<div class="container-fluid">
+		<a class="navbar-brand"  th:href="@{/}">
             <i class="fas fa-home"></i>
             Aplikacja PSSE Gliwice
-        </a>
+      </a>
 
-        <button class="navbar-toggler" type="toggle" data-toggle="collapse" data-target="#navbarResponsive">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+		<button class="navbar-toggler" type="toggle" data-toggle="collapse" data-target="#navbarResponsive">
+			<span class="navbar-toggler-icon"></span>
+		</button>
 
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="navbar-nav ml-auto">
+		<div class="collapse navbar-collapse" id="navbarResponsive">
+			<ul class="navbar-nav ml-auto">
 
-                <li class="nav-item">
-                    <a class="nav-link"  th:href="@{/}">  Strona&nbsp;Domowa  <i class="fas fa-home"></i>  </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/patient/new}">Dodaj pacjenta <i class="far fa-sticky-note"></i></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Raporty&nbsp;Word <i class="far fa-file-word"></i></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link"  th:href="@{/export/excel}" >Generuj Raport Excel  <i class="far fa-file-excel"></i></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/admin/register}">Użytkownik <i class="far fa-list-item"></i></a>
-                </li>
-                <li class="nav-item">
-                    <a id="logout" class="nav-link" th:href="@{/logout}">Wyloguj&nbsp;się  <i class="fas fa-sign-out-alt"></i>  </a>
-                </li>
+				<li class="nav-item">
+                    <a class="nav-link"  th:href="@{/}">Strona&nbsp;Domowa  <i class="fas fa-home"></i>  </a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" th:href="@{/patient/all}" id="dropdownPatients" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Pacjent <i class="far fa-sticky-note"></i>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="dropdownPatients">
+                    <a class="dropdown-item"  th:href="@{/patient/new}">Dodaj pacjenta</a>
+                    <a class="dropdown-item"  th:href="@{/patient/all}">Wyświetl pacjentów</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link"  th:href="@{/export/excel}" download>Generuj Raport Excel  <i class="fas fa-file-excel"></i></i></a>
+            </li>
 
-            </ul>
-        </div>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" th:href="@{/admin/users}" id="dropdownUsers" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Użytkownik <i class="far fa-list-item"></i>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="dropdownUsers">
+                    <a class="dropdown-item"  th:href="@{/admin/register}">Dodaj użytkownika</a>
+                    <a class="dropdown-item"  th:href="@{/admin/users}">Wyświetl użytkowników</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a id="logout" class="nav-link" th:href="@{/logout}">Wyloguj się  <i class="fas fa-sign-out-alt"></i>  </a>
+            </li>
 
-    </div>
+			</ul>
+		</div>
+
+	</div>
 </nav>
 
 
 <div class="container-fluid padding">
     <div class="row welcome text-center">
         <div class="col-12">
-            <h3 class="display-4"> Formularz wprowadzania użytkowników  </h3>
+            <br>
+            <h3 class="display-4">Dodawanie nowego użytkownika</h3>
+            <br>
         </div>
     </div>
+</div>
 </div>
 
 
 <div class="container-fluid padding">
-    <hr> <!-- Do usunięcia!  -->
-
+    <hr>
 </div>
 
 
@@ -99,69 +96,76 @@
     <div class="row welcome text-center">
 
         <div class="col-12">
+            <br>
             <h1 class="display-6">Dane użytkownika:</h1>
+            <br>
         </div>
     </div>
+</div>
 
 
 
 
+    <div class="container-fluid padding">
+        <!-- FORMULARZ -->
+        <form th:action="@{/admin/register/save}"  th:object="${newUser}" method="POST" id="form_primary">
+            <div class="row justify-content-center">
 
-    <!-- FORMULARZ -->
-    <form th:action="@{/admin/register/save}"  th:object="${newUser}" method="POST" id="form_primary">
-        <div class="row justify-content-center">
-
-            <div class="col-xs-6 col-md-4 col-lg-5">
-                <!-- IMIE -->
-                <div class="form-group">
-                    <label for="">Imię</label>
-                    <input type="text" class="form-control" placeholder="Imię" th:field="${newUser.name}">
-                    <span th:if="${#fields.hasErrors('name')}"
-                          th:errors="${newUser.name}"></span>
+                <div class="col-xs-6 col-md-5 col-lg-5">
+                    <!-- IMIE -->
+                    <div class="form-group">
+                        <label for="name">Imię</label>
+                        <input type="text" class="form-control" placeholder="Imię" id="name" th:field="${newUser.name}">
+                        <span th:if="${#fields.hasErrors('name')}"
+                              th:errors="${newUser.name}"></span>
+                    </div>
                 </div>
-            </div>
 
-            <!-- NAZWISKO -->
-            <div class="col-xs-6 col-md-4 col-lg-5">
-                <div class="form-group">
-                    <label for="">Nazwisko</label>
-                    <input type="text" class="form-control" placeholder="Nazwisko"  th:field="${newUser.surname}">
-                    <span th:if="${#fields.hasErrors('surname')}"
-                          th:errors="${newUser.surname}"></span>
+                <!-- NAZWISKO -->
+                <div class="col-xs-6 col-md-5 col-lg-5">
+                    <div class="form-group">
+                        <label for="surname">Nazwisko</label>
+                        <input type="text" class="form-control" placeholder="Nazwisko"  id="surname" th:field="${newUser.surname}">
+                        <span th:if="${#fields.hasErrors('surname')}"
+                              th:errors="${newUser.surname}"></span>
+                    </div>
                 </div>
             </div>
 
             <div class="row justify-content-center">
 
                 <!-- LOGIN -->
-                <div class="col-xs-6 col-md-5 col-lg-6">
+                <div class="col-xs-6 col-md-5 col-lg-5">
                     <div class="form-group">
-                        <label for="">Login</label>
-                        <input type="text" class="form-control" placeholder="Login"  th:field="${newUser.login}">
+                        <label for="login">Login <span class="text-danger">(Nie podlega późniejszej edycji.)</span></label>
+                        <input type="text" class="form-control" placeholder="Login może zawierać tylko małe litery, cyfry i znaki specjalne: '_', '#'."
+                        id="login" th:field="${newUser.login}">
                         <span th:if="${#fields.hasErrors('login')}"
                               th:errors="${newUser.login}"></span>
                     </div>
                 </div>
 
                 <!-- PASSWORD -->
-                <div class="col-xs-6 col-md-5 col-lg-6">
+                <div class="col-xs-6 col-md-5 col-lg-5">
                     <div class="form-group">
-                        <label for="">Hasło</label>
-                        <input type="text" class="form-control" placeholder="Hasło"  th:field="${newUser.password}">
+                        <label for="password">Hasło</label>
+                        <input type="text" class="form-control" placeholder="Hasło może zawierać tylko małe oraz duże litery, cyfry i znaki specjalne: '_', '#'."
+                               id="password"  th:field="${newUser.password}">
                         <span th:if="${#fields.hasErrors('password')}"
                               th:errors="${newUser.password}"></span>
                     </div>
                 </div>
+            </div>
 
-                <div class="row justify-content-center">
+            <div class="row justify-content-center">
 
                     <!-- ENABLED -->
                     <div class="col-xs-6 col-md-4 col-lg-5">
                         <div class="form-group">
-                            <label for="">Aktywny</label>
-                            <select th:field="${newUser.enabled}" id="" class="form-control">
-                                <option th:value="true" >TAK</option>
-                                <option th:value="false">NIE</option>
+                            <label for="enabled">Status</label>
+                            <select th:field="${newUser.enabled}" id="enabled" class="form-control">
+                                <option th:value="true">Aktywny</option>
+                                <option th:value="false">Zablokowany</option>
                             </select>
                         </div>
                     </div>
@@ -170,29 +174,39 @@
                     <!-- ROLE -->
                     <div class="col-xs-6 col-md-4 col-lg-5">
                         <div class="form-group">
-                            <label for="">Rola</label>
-                            <select th:field="${newUser.role}" id="" class="form-control" >
+                            <label for="role">Rola</label>
+                            <select th:field="${newUser.role}" id="role" class="form-control" >
                                 <option th:value="admin">Administrator</option>
                                 <option th:value="user" >Użytkownik</option>
                             </select>
                         </div>
                     </div>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <div class="col-xs-5 col-sm-5 col-lg-5" style="padding-top: 1.99rem;">
+                        <a th:href="@{/admin/users}" class="btn btn-outline-warning">
+                            <span>Anuluj</span>
+                        </a>
+                    </div>
 
                     <!-- PRZESLANIE FORMULARZA -->
-                    <div class="col-xs-6 col-md-4 col-lg-2">
-                        <div class="form-group" style="padding-top: 1.99rem;">
-                            <input type="submit"  class="btn btn-primary">
+                    <div class="col-xs-5 col-md-5 col-lg-5" style="padding-top: 1.99rem;">
+                        <div class="form-group" >
+                            <input type="submit"  value="Zapisz" class="btn btn-outline-primary">
                         </div>
                     </div>
 
-
-
                 </div>
-    </form>
+            </div>
 
 
+        </form>
 
-</div>
+    </div>
+
+    </div>
 
 </body>
 </html>

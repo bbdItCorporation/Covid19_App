@@ -1,177 +1,153 @@
-package com.bbd.Covid19_App.entities;
+package com.bbd.Covid19_App.validators.validationModels;
 
-import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
-import javax.persistence.*;
+
+import javax.persistence.Column;
 import javax.validation.constraints.*;
 import java.time.LocalDate;
-import java.time.Period;
 
+public class PatientFilterModel {
 
-@Entity
-@Table(schema = "dbo", name = "covid_people")
-public class Patient {
-
-    @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name = "patient_id")
     private Integer patientId;
 
-    @NotBlank(message = "Pole wymagane.")
-    @Pattern(regexp = "^[a-zA-ZłęóąśżźćńĄĘÓŁŚŻŹĆŃ]+$", message = "Pole może zawierać tylko małe i duże litery.")
-    @Column(name = "name")
+    @Pattern(regexp = "^[a-zA-ZłęóąśżźćńĄĘÓŁŚŻŹĆŃ]*$", message = "Pole może zawierać tylko małe i duże litery.")
     private String name;
 
-    @NotBlank(message = "Pole wymagane.")
-    @Pattern(regexp = "^[a-zA-ZłęóąśżźćńĄĘÓŁŚŻŹĆŃ-]+$", message = "Pole może zawierać tylko małe, duże litery lub \"-\".")
-    @Column(name = "surname")
+    @Pattern(regexp = "^[a-zA-ZłęóąśżźćńĄĘÓŁŚŻŹĆŃ-]*$", message = "Pole może zawierać tylko małe, duże litery lub \"-\".")
     private String surname;
 
-    @Pattern(regexp = "(M|K)", message = "Błędne dane.")
-    @NotBlank(message = "Pole wymagane.")
-    @Length(max=1, message = "Pole wymagane.")
-    @Column(name = "sex")
+    @Pattern(regexp = "(M|K|)", message = "Błędne dane.")
     private String gender;
 
     @PastOrPresent(message = "Data może przypadać na dni minione lub obecny.")
-    @NotNull(message = "Pole wymagane.")
-    @Column(name = "birthday")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate birthDate;
-
-    @Column(name = "age")
-    private int age;
+    private LocalDate birthDateFrom;
 
     @PastOrPresent(message = "Data może przypadać na dni minione lub obecny.")
-    @NotNull(message = "Pole wymagane.")
-    @Column(name = "date_positive")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate datePositive;
+    private LocalDate birthDateTo;
+
+
+    @Pattern(regexp = "^[0-9]*$", message = "Pole moża zawierać jedynie cyfry dodatnie.")
+    private String ageFrom;
+
+    @Pattern(regexp = "^[0-9]*$", message = "Pole moża zawierać jedynie cyfry dodatnie.")
+    private String ageTo;
 
     @PastOrPresent(message = "Data może przypadać na dni minione lub obecny.")
-    @NotNull(message = "Pole wymagane.")
-    @Column(name = "date_information")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate dateInformation;
+    private LocalDate datePositiveFrom;
 
-    @NotBlank(message = "Pole wymagane.")
-    @Pattern(regexp = "^[a-zA-ZłęóąśżźćńĄĘÓŁŚŻŹĆ Ń-]+$", message = "Pole może zawierać tylko małe i duże litery.")
-    @Column(name = "residence_city")
+    @PastOrPresent(message = "Data może przypadać na dni minione lub obecny.")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate datePositiveTo;
+
+    @PastOrPresent(message = "Data może przypadać na dni minione lub obecny.")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate dateInformationFrom;
+
+    @PastOrPresent(message = "Data może przypadać na dni minione lub obecny.")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate dateInformationTo;
+
+    @Pattern(regexp = "^[a-zA-ZłęóąśżźćńĄĘÓŁŚŻŹĆ Ń-]*$", message = "Pole może zawierać tylko małe i duże litery.")
     private String residenceCity;
 
-    @NotBlank(message = "Pole wymagane.")
-    @Length(min=3, message="Pole wymagane.")
-    @Pattern(regexp = "^[a-zA-ZłęóąśżźćńĄĘÓŁŚŻŹĆŃ]+$", message = "Pole może zawierać tylko małe i duże litery.")
-    @Column(name = "residence_district")
+
+    @Pattern(regexp = "^[a-zA-ZłęóąśżźćńĄĘÓŁŚŻŹĆŃ]*$", message = "Pole może zawierać tylko małe i duże litery.")
     private String residenceDistrict;
 
-    @NotBlank(message = "Pole wymagane.")
-    @Pattern(regexp = "^[a-zA-ZłęóąśżźćńĄĘÓŁŚŻŹĆ Ń-]+$", message = "Pole może zawierać tylko małe i duże litery.")
-    @Column(name = "stay_city")
+
+    @Pattern(regexp = "^[a-zA-ZłęóąśżźćńĄĘÓŁŚŻŹĆ Ń-]*$", message = "Pole może zawierać tylko małe i duże litery.")
     private String stayCity;
 
-    @NotBlank(message = "Pole wymagane.")
-    @Length(min=3, message="Pole wymagane.")
-    @Pattern(regexp = "^[a-zA-ZłęóąśżźćńĄĘÓŁŚŻŹĆŃ]+$", message = "Pole może zawierać tylko małe i duże litery.")
-    @Column(name = "stay_district")
+
+    @Pattern(regexp = "^[a-zA-ZłęóąśżźćńĄĘÓŁŚŻŹĆŃ]*$", message = "Pole może zawierać tylko małe i duże litery.")
     private String stayDistrict;
 
-    @NotBlank(message = "Pole wymagane.")
-    @Pattern(regexp = "^[a-zA-ZłęóąśżźćńĄĘÓŁŚŻŹĆŃ .-]+$", message = "Pole może zawierać tylko małe i duże litery.")
+
+    @Pattern(regexp = "^[a-zA-ZłęóąśżźćńĄĘÓŁŚŻŹĆŃ .-]*$", message = "Pole może zawierać tylko małe i duże litery.")
     @Column(name = "stay_street")
     private String stayStreet;
 
-    @NotBlank(message = "Pole wymagane.")
-    @Pattern(regexp = "^[a-zA-ZłęóąśżźćńĄĘÓŁŚŻŹĆŃ .-]+$", message = "Pole może zawierać tylko małe i duże litery.")
+    @Pattern(regexp = "^[a-zA-ZłęóąśżźćńĄĘÓŁŚŻŹĆŃ .-]*$", message = "Pole może zawierać tylko małe i duże litery.")
     @Column(name = "residence_street")
     private String residenceStreet;
 
-    @NotBlank(message = "Pole wymagane.")
-    @Pattern(regexp = "^[0-9a-zA-ZłęóąśżźćńĄĘÓŁŚŻŹĆŃ/]+$", message = "Pole może zawierać tylko cyfry, małe, duże litery lub znak \"/\".")
+    @Pattern(regexp = "^[0-9a-zA-ZłęóąśżźćńĄĘÓŁŚŻŹĆŃ/]*$", message = "Pole może zawierać tylko cyfry, małe, duże litery lub znak \"/\".")
     @Column(name = "stay_apartment_number")
     private String stayApartmentNumber;
 
-    @NotBlank(message = "Pole wymagane.")
-    @Pattern(regexp = "^[0-9a-zA-ZłęóąśżźćńĄĘÓŁŚŻŹĆŃ/]+$", message = "Pole może zawierać tylko cyfry, małe, duże litery lub znak \"/\".")
+    @Pattern(regexp = "^[0-9a-zA-ZłęóąśżźćńĄĘÓŁŚŻŹĆŃ/]*$", message = "Pole może zawierać tylko cyfry, małe, duże litery lub znak \"/\".")
     @Column(name = "residence_apartment_number")
     private String residenceApartmentNumber;
 
-    @NotBlank(message = "Pole wymagane.")
-    @Pattern(regexp = "^[0-9]{2}-[0-9]{3}$", message = "Pole musi zawierać tylko cyfry oraz znak \"-\".")
-    @Column(name = "residence_city_code")
-    private String residenceCityCode;
-
-    @NotBlank(message = "Pole wymagane.")
-    @Pattern(regexp = "^[0-9]{2}-[0-9]{3}$", message = "Pole musi zawierać tylko cyfry oraz znak \"-\".")
-    @Column(name = "stay_city_code")
-    private String stayCityCode;
-
-    @Pattern(regexp = "^[a-zA-ZłęóąśżźćńĄĘÓŁŚŻŹĆŃ .-]*$", message = "Pole może zawierać tylko małe i duże litery.")
-    @Column(name = "hospital_name")
+    @Pattern(regexp = "^[a-zA-ZłęóąśżźćńĄĘÓŁŚŻŹĆŃ]*$", message = "Pole może zawierać tylko małe i duże litery.")
     private String hospitalName;
 
-    @Column(name = "hospitalized")
     private Boolean hospitalized;
 
-    @Column(name = "quarantine")
     private Boolean inQuarantine;
 
-    @Column(name = "supervision")
     private Boolean supervision;
 
     @Pattern(regexp = "^[a-zA-ZłęóąśżźćńĄĘÓŁŚŻŹĆŃ]*$", message = "Pole może zawierać tylko małe i duże litery.")
-    @Column(name = "laboratory")
     private String labName;
 
     @Pattern(regexp = "^[a-zA-ZłęóąśżźćńĄĘÓŁŚŻŹĆŃ]*$", message = "Pole może zawierać tylko małe i duże litery.")
-    @Column(name = "infection_source")
     private String infectionSource;
 
-    @NotBlank(message = "Pole wymagane.")
-    @Pattern(regexp = "^[0-9]{9}$", message = "Błędny numer telefonu.")
-    @Column(name = "telephone_number")
+    @Pattern(regexp = "^[0-9]{2}-[0-9]{3}$|^[0-9]{0,3}$", message = "Pole może zawierać pełny kod lub maksymalnie 3 kolejne cyfry, nieoddzielone myślnikiem.")
+    private String residenceCityCode;
+
+    @Pattern(regexp = "^[0-9]{2}-[0-9]{3}$|^[0-9]{0,3}$", message = "Pole może zawierać pełny kod lub maksymalnie 3 kolejne cyfry, nieoddzielone myślnikiem.")
+    private String stayCityCode;
+
+    @Pattern(regexp = "^[0-9]{9}$|^$", message = "Błędny numer telefonu.")
     private String phoneNumber;
 
-    @NotBlank(message = "Pole wymagane.")
     @Email(message = "Błędny adres email.")
-    @Column(name = "email")
     private String email;
 
-    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH},
-               fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User creator;
+    @Pattern(regexp = "^[a-złęóąśżźćń0-9_#]*$", message =  "Podany login zawiera nieprawidłowe znaki.")
+    private String creatorLogin;
 
 
-    public Patient() {
+    public PatientFilterModel() {
+
     }
-
-    public Patient(String name, String surname, String stayCityCode, String residenceCityCode, String gender, LocalDate birthDate, int age, LocalDate datePositive, LocalDate dateInformation, String stayApartmentNumber, String stayStreet, String residenceApartmentNumber, String residenceStreet, String residenceCity, String residenceDistrict, String stayCity, String stayDistrict, Boolean hospitalized, String hospitalName, Boolean inQuarantine, Boolean supervision, String labName, String infectionSource, String phoneNumber, String email) {
+    public PatientFilterModel(Integer patientId, String stayCityCode, String residenceCityCode, String name, String stayApartmentNumber, String stayStreet, String residenceApartmentNumber, String residenceStreet, String surname, String gender, LocalDate birthDateFrom, LocalDate birthDateTo,  String ageFrom, String ageTo,  LocalDate datePositiveFrom, LocalDate datePositiveTo,  LocalDate dateInformationFrom, LocalDate dateInformationTo,  String residenceCity,  String residenceDistrict,  String stayCity,  String stayDistrict,  String hospitalName, Boolean hospitalized, Boolean inQuarantine, Boolean supervision, String labName, String infectionSource,  String phoneNumber, String email, String creatorLogin) {
+        this.patientId = patientId;
         this.name = name;
         this.surname = surname;
         this.gender = gender;
-        this.birthDate = birthDate;
-        this.age = age;
-        this.datePositive = datePositive;
-        this.dateInformation = dateInformation;
+        this.birthDateFrom = birthDateFrom;
+        this.birthDateTo = birthDateTo;
+        this.ageFrom = ageFrom;
+        this.ageTo = ageTo;
+        this.datePositiveFrom = datePositiveFrom;
         this.residenceApartmentNumber = residenceApartmentNumber;
         this.stayApartmentNumber = stayApartmentNumber;
         this.stayCityCode = stayCityCode;
         this.residenceCityCode = residenceCityCode;
         this.stayStreet = stayStreet;
         this.residenceStreet = residenceStreet;
+        this.datePositiveTo = datePositiveTo;
+        this.dateInformationFrom = dateInformationFrom;
+        this.dateInformationTo = dateInformationTo;
         this.residenceCity = residenceCity;
         this.residenceDistrict = residenceDistrict;
         this.stayCity = stayCity;
         this.stayDistrict = stayDistrict;
-        this.hospitalized = hospitalized;
         this.hospitalName = hospitalName;
+        this.hospitalized = hospitalized;
         this.inQuarantine = inQuarantine;
         this.supervision = supervision;
         this.labName = labName;
         this.infectionSource = infectionSource;
         this.phoneNumber = phoneNumber;
         this.email = email;
+        this.creatorLogin = creatorLogin;
     }
 
     public void setPatientId(Integer patientId) {
@@ -206,12 +182,40 @@ public class Patient {
         this.gender = gender;
     }
 
-    public LocalDate getBirthDate() {
-        return birthDate;
+    public LocalDate getBirthDateFrom() {
+        return birthDateFrom;
     }
 
-    public void setBirthDate(LocalDate birthDate) {
-        this.birthDate = birthDate;
+    public void setBirthDateFrom(LocalDate birthDateFrom) {
+        this.birthDateFrom = birthDateFrom;
+    }
+
+    public LocalDate getBirthDateTo() {
+        return birthDateTo;
+    }
+
+    public void setBirthDateTo(LocalDate birthDateTo) {
+        this.birthDateTo = birthDateTo;
+    }
+
+    public LocalDate getDatePositiveTo() {
+        return datePositiveTo;
+    }
+
+    public void setDatePositiveTo(LocalDate datePositiveTo) {
+        this.datePositiveTo = datePositiveTo;
+    }
+
+    public LocalDate getDateInformationTo() {
+        return dateInformationTo;
+    }
+
+    public void setDateInformationTo(LocalDate dateInformationTo) {
+        this.dateInformationTo = dateInformationTo;
+    }
+
+    public String getAgeFrom() {
+        return ageFrom;
     }
 
     public String getResidenceCityCode() {
@@ -262,38 +266,32 @@ public class Patient {
         this.residenceApartmentNumber = residenceApartmentNumber;
     }
 
-    public int getAge() {
-        return age;
+    public void setAgeFrom(String ageFrom) {
+        this.ageFrom = ageFrom;
     }
 
-    public void setAge() {
-        this.age = this.calculateAge();
+    public String getAgeTo() {
+        return ageTo;
     }
 
-    public int calculateAge() {
-        LocalDate currentDate = LocalDate.now();
-        int age = Period.between(this.birthDate, currentDate).getYears();
-        return age;
+    public void setAgeTo(String ageTo) {
+        this.ageTo = ageTo;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public LocalDate getDatePositiveFrom() {
+        return datePositiveFrom;
     }
 
-    public LocalDate getDatePositive() {
-        return datePositive;
+    public void setDatePositiveFrom(LocalDate datePositiveFrom) {
+        this.datePositiveFrom = datePositiveFrom;
     }
 
-    public void setDatePositive(LocalDate datePositive) {
-        this.datePositive = datePositive;
+    public LocalDate getDateInformationFrom() {
+        return dateInformationFrom;
     }
 
-    public LocalDate getDateInformation() {
-        return dateInformation;
-    }
-
-    public void setDateInformation(LocalDate dateInformation) {
-        this.dateInformation = dateInformation;
+    public void setDateInformationFrom(LocalDate dateInformationFrom) {
+        this.dateInformationFrom = dateInformationFrom;
     }
 
     public String getResidenceCity() {
@@ -384,12 +382,12 @@ public class Patient {
         this.phoneNumber = phoneNumber;
     }
 
-    public User getCreator() {
-        return creator;
+    public String getCreatorLogin() {
+        return creatorLogin;
     }
 
-    public void setCreator(User creator) {
-        this.creator = creator;
+    public void setCreatorLogin(String creatorLogin) {
+        this.creatorLogin = creatorLogin;
     }
 
     public String getEmail() {

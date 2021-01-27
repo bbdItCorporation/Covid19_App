@@ -8,25 +8,12 @@
     <meta charset="utf-8">
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> -->
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
 
-
-    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"> -->
-
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script> -->
-
-
-    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-     -->
     <link rel="stylesheet" type="text/css" th:href="@{/style.css}"}>
 </head>
 <body>
@@ -34,10 +21,9 @@
 <!-- Nawigacja -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
     <div class="container-fluid">
-        <a class="navbar-brand" href="index.html">
+        <a class="navbar-brand"  th:href="@{/}">
             <i class="fas fa-home"></i>
             Aplikacja PSSE Gliwice
-
         </a>
 
         <button class="navbar-toggler" type="toggle" data-toggle="collapse" data-target="#navbarResponsive">
@@ -48,22 +34,32 @@
             <ul class="navbar-nav ml-auto">
 
                 <li class="nav-item">
-                    <a class="nav-link"  th:href="@{/}">  Strona&nbsp;Domowa  <i class="fas fa-home"></i>  </a>
+                    <a class="nav-link"  th:href="@{/}">Strona&nbsp;Domowa  <i class="fas fa-home"></i>  </a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" th:href="@{/patient/all}" id="dropdownPatients" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Pacjent <i class="far fa-sticky-note"></i>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="dropdownPatients">
+                        <a class="dropdown-item"  th:href="@{/patient/new}">Dodaj pacjenta</a>
+                        <a class="dropdown-item"  th:href="@{/patient/all}">Wyświetl pacjentów</a>
+                    </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/patient/new}">Dodaj pacjenta <i class="far fa-sticky-note"></i></a>
+                    <a class="nav-link"  th:href="@{/export/excel}" download>Generuj Raport Excel  <i class="fas fa-file-excel"></i></i></a>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" th:href="@{/admin/users}" id="dropdownUsers" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Użytkownik <i class="far fa-list-item"></i>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="dropdownUsers">
+                        <a class="dropdown-item"  th:href="@{/admin/register}">Dodaj użytkownika</a>
+                        <a class="dropdown-item"  th:href="@{/admin/users}">Wyświetl użytkowników</a>
+                    </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Raporty&nbsp;Word <i class="far fa-file-word"></i></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link"  th:href='@{/export/excel}' download>Raport&nbsp;Excel  <i class="far fa-file-excel"></i></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/admin/register}">Użytkownik <i class="far fa-list-ul"></i></a>
-                </li>
-                <li class="nav-item">
-                    <a id="logout" class="nav-link" th:href="@{/logout}">Wyloguj się   <i class="fas fa-sign-out-alt"></i>  </a>
+                    <a id="logout" class="nav-link" th:href="@{/logout}">Wyloguj się  <i class="fas fa-sign-out-alt"></i>  </a>
                 </li>
 
             </ul>
@@ -71,7 +67,6 @@
 
     </div>
 </nav>
-
 
 <div class="container-fluid padding">
     <div class="row welcome text-center">

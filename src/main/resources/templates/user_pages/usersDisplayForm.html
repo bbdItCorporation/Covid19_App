@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="pl">
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+
+       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+       <title>Aplikacja Sanepid</title>
+       <meta charset="utf-8">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+       <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+       <script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+        <link rel="stylesheet" type="text/css" th:href="@{/style.css}"}>
+        <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+        <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap4.min.js"></script>
+
+
+    </head>
+
+    <body>
+    <!-- Nawigacja -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+        <div class="container-fluid">
+            <a class="navbar-brand"  th:href="@{/}">
+                <i class="fas fa-home"></i>
+                Aplikacja PSSE Gliwice
+            </a>
+
+            <button class="navbar-toggler" type="toggle" data-toggle="collapse" data-target="#navbarResponsive">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+
+                    <li class="nav-item">
+                        <a class="nav-link"  th:href="@{/}">Strona&nbsp;Domowa  <i class="fas fa-home"></i>  </a>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" th:href="@{/patient/all}" id="dropdownPatients" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Pacjent <i class="far fa-sticky-note"></i>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownPatients">
+                            <a class="dropdown-item"  th:href="@{/patient/new}">Dodaj pacjenta</a>
+                            <a class="dropdown-item"  th:href="@{/patient/all}">Wyświetl pacjentów</a>
+                        </div>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link"  th:href="@{/export/excel}" download>Generuj Raport Excel  <i class="fas fa-file-excel"></i></i></a>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" th:href="@{/admin/users}" id="dropdownUsers" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Użytkownik <i class="far fa-list-item"></i>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownUsers">
+                            <a class="dropdown-item"  th:href="@{/admin/register}">Dodaj użytkownika</a>
+                            <a class="dropdown-item"  th:href="@{/admin/users}">Wyświetl użytkowników</a>
+                        </div>
+                    </li>
+
+                    <li class="nav-item">
+                        <a id="logout" class="nav-link" th:href="@{/logout}">Wyloguj się  <i class="fas fa-sign-out-alt"></i>  </a>
+                    </li>
+
+                </ul>
+            </div>
+
+        </div>
+    </nav>
+
+
+    <div class="container-fluid padding">
+       <div class="row welcome text-center">
+          <div class="col-12">
+              <br>
+              <h3 class="display-4"> Użytkownicy </h3>
+              <br>
+              <hr>
+          </div>
+       </div>
+    </div>
+
+
+
+    <div class="container-fluid padding">
+        <!-- FORMULARZ WYSZUKIWANIA-->
+        <form th:action="@{/admin/users/search}"  th:object="${userToSearch}" method="POST" id="form_primary">
+
+            <div class="row justify-content-center">
+
+                <div class="col-xs-2 col-md-2 col-lg-2">
+                    <div class="form-group">
+                        <label for="nameSearch">Imię</label>
+                        <input type="text" class="form-control" placeholder="Imię"  id="nameSearch" th:field="${userToSearch.name}">
+                        <span th:if="${#fields.hasErrors('name')}"
+                              th:errors="${userToSearch.name}"></span>
+                    </div>
+                </div>
+
+                <div class="col-xs-2 col-md-2 col-lg-2">
+                    <div class="form-group">
+                        <label for="surnameSearch">Nazwisko</label>
+                        <input type="text" class="form-control" placeholder="Nazwisko"  id="surnameSearch" th:field="${userToSearch.surname}">
+                        <span th:if="${#fields.hasErrors('surname')}"
+                              th:errors="${userToSearch.surname}"></span>
+                    </div>
+                </div>
+
+                <div class="col-xs-2 col-md-2 col-lg-2">
+                    <div class="form-group">
+                        <label for="loginSearch">Login</label>
+                        <input type="text" class="form-control" placeholder="Login"  id="loginSearch" th:field="${userToSearch.login}">
+                        <span th:if="${#fields.hasErrors('login')}"
+                              th:errors="${userToSearch.login}"></span>
+                    </div>
+                </div>
+
+                <div class="col-xs-2 col-md-2 col-lg-2">
+                    <div class="form-group">
+                        <label for="roleSearch">Rola</label>
+                        <select th:field="${userToSearch.role}" id="roleSearch" class="form-control">
+                            <option th:value="null">-</option>
+                            <option th:value="admin">Administrator</option>
+                            <option th:value="user">Użytkownik</option>
+                        </select>
+                        <span th:if="${#fields.hasErrors('role')}"
+                              th:errors="${userToSearch.role}"></span>
+                    </div>
+                </div>
+
+                <div class="col-xs-2 col-md-2 col-lg-2">
+                    <div class="form-group">
+                        <label for="statusSearch">Status</label>
+                        <select th:field="${userToSearch.enabled}" id="statusSearch" class="form-control">
+                            <option th:value="null">-</option>
+                            <option th:value="true">Aktywny</option>
+                            <option th:value="false">Zablokowany</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-xs-1 col-md-1 col-lg-1">
+                    <div class="form-group" style="padding-top: 1.99rem;">
+                        <button type="submit"  class="btn btn-outline-primary">Szukaj</button>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+
+    </div>
+
+
+    <div class="container-fluid padding">
+        <table id="usersTable" class="table table-filter">
+
+            <thead>
+                <tr>
+                    <th>            </th>
+                    <th>Imie</th>
+                    <th>Nazwisko</th>
+                    <th>Login</th>
+                    <th>Rola</th>
+                    <th>Aktywny</th>
+                    <th></th>
+                </tr>
+
+
+            </thead>
+            <tbody>
+                <tr th:each="user: ${users}">
+                    <td>            </td>
+                    <td th:text="${user.name}"></td>
+                    <td th:text="${user.surname}"></td>
+                    <td th:text="${user.login}"></td>
+                    <div th:switch="${user.role}">
+                        <td th:case="admin">Administrator</td>
+                        <td th:case="user">Użytkownik</td>
+                    </div>
+
+                    <div th:switch="${user.enabled}">
+                        <td th:case="true">Aktywny</td>
+                        <td th:case="false">Zablokowany</td>
+                    </div>
+
+
+                    <td style="text-align: center">
+                        <a th:href="@{/admin/user/details/{id}(id = ${user.userId})}" class="btn btn-outline-info">
+                            <span><i class="fas fa-info-circle"></i></span>
+                            <span>Szczegóły</span>
+                        </a>
+
+                        <a th:href="@{/admin/user/edit/{id}(id = ${user.userId})}" class="btn btn-outline-warning">
+                            <span><i class="fas fa-edit"></i></span>
+                            <span>Edytuj</span>
+                        </a>
+
+                        <a th:href="@{/admin/user/edit/password/{id}(id = ${user.userId})}" class="btn btn-outline-success">
+                            <span><i class="fas fa-unlock-alt"></i></span>
+                            <span>Zmień hasło</span>
+                        </a>
+
+
+                        <button type="button" class="btn btn-outline-danger" data-toggle="modal" th:attr="data-target='#askIfSureToDelete'+${user.userId}"><i class="fas fa-trash-alt"></i> Usuń</button>
+
+                        <!-- The Modal -->
+                        <div class="modal fade" th:attr="id='askIfSureToDelete'+${user.userId}" id="askIfSureToDelete">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+
+                                    <!-- Modal Header -->
+                                    <div class="modal-header">
+                                        <h6 class="modal-title">Czy jesteś pewny, że chcesz usunąć użytkownika?</h6>
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    </div>
+
+                                    <!-- Modal footer -->
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-outline-warning" data-dismiss="modal">Anuluj</button>
+                                        <a  th:href="@{/admin/user/delete/{id}(id = ${user.userId})}"><button type="button" class="btn btn-outline-danger">Potwierdzam</button></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </td>
+
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+    </body>
+</html>
