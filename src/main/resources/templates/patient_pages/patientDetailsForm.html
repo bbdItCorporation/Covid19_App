@@ -81,6 +81,11 @@
         </div>
     </div>
 
+    <script>
+        document.getElementById("datePositive").readOnly = true;
+        document.getElementById("dateInformation").readOnly = true;
+        document.getElementById("birthDate").readOnly = true;
+    </script>
 
     <div class="container-fluid padding">
         <hr>
@@ -132,7 +137,7 @@
             <div class="col-xs-4 col-md-4 col-lg-4">
                 <div class="form-group">
                     <label for="birthDate">Data Urodzenia</label>
-                    <input type="date" id="birthDate" class="form-control" placeholder="Data" th:field="${selectedPatient.birthDate}" name="date" disabled>
+                    <input type="text" id="birthDate" class="form-control" placeholder="Data" th:field="${selectedPatient.birthDate}" name="date" readonly>
                     <span th:if="${#fields.hasErrors('birthDate')}"
                           th:errors="${selectedPatient.birthDate}"></span>
                 </div>
@@ -167,7 +172,7 @@
             <div class="col-xs-4 col-md-4 col-lg-4">
                 <div class="form-group">
                     <label for="datePositive">Data uzyskania wyniku dodatniego</label>
-                    <input type="date" id="datePositive" class="form-control" placeholder="Data" th:field="${selectedPatient.datePositive}" name="date" disabled>
+                    <input type="text" id="datePositive" class="form-control" placeholder="Data" th:field="${selectedPatient.datePositive}" name="date" readonly>
                     <span th:if="${#fields.hasErrors('datePositive')}"
                           th:errors="${selectedPatient.datePositive}"></span>
                 </div>
@@ -177,7 +182,7 @@
             <div class="col-xs-4 col-md-4 col-lg-4">
                 <div class="form-group">
                     <label for="dateInformation">Data pozyskania informacji przez PSSE</label>
-                    <input type="date" id="dateInformation" class="form-control" placeholder="Data" th:field="${selectedPatient.dateInformation}" name="date" disabled>
+                    <input type="text" id="dateInformation" class="form-control" placeholder="Data" th:field="${selectedPatient.dateInformation}" name="date" readonly>
                     <span th:if="${#fields.hasErrors('dateInformation')}"
                           th:errors="${selectedPatient.dateInformation}"></span>
                 </div>
