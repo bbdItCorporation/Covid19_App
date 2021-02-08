@@ -89,7 +89,7 @@ public class AdminController {
 
         if (selectedUser != null) {
             model.addAttribute("selectedUser", selectedUser);
-            return "user_pages/patientDetailsForm.html";
+            return "user_pages/userDetailsForm.html";
         }
 
         return "error_pages/error404.html";
